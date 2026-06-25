@@ -1,0 +1,31 @@
+# ==========================================================
+# KartSimDT - Project Requirements
+# ==========================================================
+
+# Code quality
+black>=25.1.0
+ruff>=0.12.0
+mypy>=1.16.0
+pytest>=8.4.0
+pre-commit>=4.2.0
+
+# Scientific computing
+numpy>=2.3.0
+scipy>=1.16.0
+pandas>=2.3.0
+
+# Geometry
+shapely>=2.1.0
+pyproj>=3.7.0
+
+# XML / KML
+lxml>=6.0.0
+
+# Visualization
+matplotlib>=3.10.0
+
+# KML
+simplekml>=1.3.6
+
+# Configuration
+PyYAML>=6.0
