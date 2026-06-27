@@ -32,6 +32,37 @@ The architecture is based on the following principles:
 - Independent modules
 
 ---
+# Architecture Goals
+
+The primary goals of the architecture are:
+
+• Scalability
+• Maintainability
+• Scientific reproducibility
+• Modularity
+• Extensibility
+• Interoperability
+
+---
+
+# Reference Datasets
+
+KartSimDT is validated using real-world karting data.
+
+Current reference datasets:
+
+• Rotena Kart Track
+• Anykščiai Kart Track
+
+Each dataset may contain:
+
+• AIM telemetry
+• Google Earth KML
+• Orthophotos
+• Metadata
+• Validation measurements
+
+---
 
 # High-Level Architecture
 
@@ -54,6 +85,8 @@ The architecture is based on the following principles:
 ```
 
 ---
+
+
 
 # Project Structure
 
@@ -220,28 +253,47 @@ Examples:
 # Data Flow
 
 ```
+Reference Data
+
 AIM CSV
-      │
-      ▼
-AimTelemetryParser
-      │
-      ▼
-TelemetrySession
-      │
-      ▼
-DigitalTwin
-      │
-      ▼
-Track Model
-      │
-      ▼
+Google Earth KML
+Orthophoto
+
+        │
+        ▼
+
+Import Layer
+
+        │
+        ▼
+
+Telemetry Processing
+
+        │
+        ▼
+
+Track Reconstruction
+
+        │
+        ▼
+
+Digital Twin
+
+        │
+        ▼
+
 Simulation
-      │
-      ▼
+
+        │
+        ▼
+
 Optimization
-      │
-      ▼
-Export
+
+        │
+        ▼
+
+Visualization / Export
+
 ```
 
 ---
@@ -266,6 +318,19 @@ Core must never import higher-level modules.
 
 ---
 
+# Development Philosophy
+
+KartSimDT evolves incrementally.
+
+Each release should:
+
+• remain functional
+• remain documented
+• remain testable
+• preserve backward compatibility whenever practical
+
+---
+
 # Future Expansion
 
 The architecture is designed to support future modules including:
@@ -280,6 +345,13 @@ The architecture is designed to support future modules including:
 - Digital twin synchronization
 
 ---
+
+ # Architecture Evolution
+
+Version 0.1 establishes the core architecture.
+
+Future versions will extend the platform without changing the fundamental module hierarchy.
+ ---
 
 # Architecture Status
 
