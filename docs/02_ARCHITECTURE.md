@@ -318,6 +318,45 @@ Core must never import higher-level modules.
 
 ---
 
+# Domain Model Ownership
+
+KartSimDT maintains a single telemetry domain model.
+
+The `telemetry` module defines the canonical representation of telemetry data:
+
+- TelemetrySession
+- SessionMetadata
+- Lap
+- LapCollection
+- TelemetryChannel
+- ChannelCollection
+
+External data formats must never define their own domain objects.
+
+Instead, every IO adapter is responsible for transforming external data into the common telemetry model.
+
+Example:
+
+AIM CSV
+      │
+      ▼
+AIM Parser
+      │
+      ▼
+TelemetrySession
+
+The IO layer acts only as an adapter between external formats and the internal domain model.
+
+This principle ensures:
+
+- Single source of truth
+- Consistent processing
+- Easy support for additional telemetry formats
+- Minimal code duplication
+- Stable public API
+
+---
+
 # Development Philosophy
 
 KartSimDT evolves incrementally.

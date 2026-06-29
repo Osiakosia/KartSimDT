@@ -9,11 +9,10 @@ a collection of telemetry laps.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 
 from .lap import Lap
-
-from collections.abc import Iterator
 
 
 @dataclass(slots=True)

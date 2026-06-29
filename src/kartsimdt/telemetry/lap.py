@@ -56,9 +56,9 @@ class Lap:
             return None
 
         assert (
-                self.sector1 is not None
-                and self.sector2 is not None
-                and self.sector3 is not None
+            self.sector1 is not None
+            and self.sector2 is not None
+            and self.sector3 is not None
         )
 
         return self.sector1 + self.sector2 + self.sector3

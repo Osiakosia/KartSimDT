@@ -9,13 +9,10 @@ a collection of telemetry channels.
 
 from __future__ import annotations
 
+from collections.abc import ItemsView, Iterator
 from dataclasses import dataclass, field
 
 from .channel import TelemetryChannel
-
-from collections.abc import ItemsView
-
-from collections.abc import Iterator
 
 
 @dataclass(slots=True)
