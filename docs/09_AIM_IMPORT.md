@@ -168,32 +168,34 @@ Defines AIM-specific exceptions.
 
 # Import Pipeline
 
-```
-AIM CSV
-    │
-    ▼
-reader.py
-    │
-    ▼
-validator.py
-    │
-    ▼
-channels.py
-    │
-    ▼
-metadata.py
-    │
-    ▼
-laps.py
-    │
-    ▼
-mapper.py
-    │
-    ▼
-parser.py
-    │
-    ▼
-TelemetrySession
+```text
+                    AIM CSV
+                       │
+                       ▼
+                AimCsvReader
+                       │
+                       ▼
+                 Raw AIM Data
+                       │
+                       ▼
+                AimValidator
+                       │
+        ┌──────────────┼──────────────┐
+        │              │              │
+        ▼              ▼              ▼
+ Channel Registry   Metadata      Lap Detection
+ (channels.py)    (metadata.py)   (laps.py)
+        │              │              │
+        └──────────────┼──────────────┘
+                       │
+                       ▼
+                  AimMapper
+                       │
+                       ▼
+              TelemetrySession
+                       │
+                       ▼
+             AimTelemetryParser
 ```
 
 ---
@@ -269,12 +271,15 @@ Tasks:
 
 Tasks:
 
-* [ ] Read AIM CSV file
-* [ ] Detect delimiter
-* [ ] Parse header
-* [ ] Load DataFrame
-* [ ] Unit tests
-
+* [+] Analyze AIM CSV structure
+* [+] Detect file encoding (verified)
+* [+] Detect delimiter
+* [+] Parse metadata block
+* [+] Parse channel names
+* [+] Parse channel units
+* [+] Load telemetry samples
+* [+] Build `AimRawData`
+* [+] Unit tests
 ---
 
 ## Sprint 2.3 — Validator

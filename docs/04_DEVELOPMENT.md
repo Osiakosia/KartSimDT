@@ -35,12 +35,25 @@ Development follows an incremental approach where every milestone produces a fun
 
 ---
 
-# Development Workflow
+## Task Completion Criteria
 
-Every new feature follows the same workflow:
+A development task is considered complete only when **all** of the following conditions are satisfied:
 
-```text
-Research
+1. The implementation follows the approved architecture.
+2. The code is formatted with `black`.
+3. The code passes `ruff` without warnings.
+4. The code passes `mypy` without errors.
+5. The implementation is verified using a real reference dataset.
+6. The documentation is updated when the implementation changes the project architecture or workflow.
+
+Only after all criteria are met may the task be marked as completed in the project roadmap.
+
+---
+
+### Development Workflow
+
+```
+Task
     │
     ▼
 Architecture
@@ -49,18 +62,20 @@ Architecture
 Implementation
     │
     ▼
-Unit Tests
+black
     │
     ▼
-Reference Dataset Validation
+ruff
     │
     ▼
-Documentation
+mypy
     │
     ▼
-Git Commit
+Validation using a real reference dataset
+    │
+    ▼
+Task completed
 ```
-
 ---
 
 # Coding Standards
@@ -74,6 +89,16 @@ Development requirements:
 * mypy for static type checking
 * pytest for automated testing
 * pre-commit hooks before every commit
+
+---
+
+### Incremental Development
+
+Large features shall be implemented as a sequence of small,
+independently verifiable tasks.
+
+Each completed task must leave the project in a functional,
+buildable, and testable state.
 
 ---
 

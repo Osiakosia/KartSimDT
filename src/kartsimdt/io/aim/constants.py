@@ -10,6 +10,12 @@ from __future__ import annotations
 
 SUPPORTED_FILE_EXTENSIONS = (".csv",)
 
+SUPPORTED_ENCODINGS = (
+    "utf-8",
+    "utf-8-sig",
+    "cp1252",
+)
+
 SUPPORTED_DELIMITERS = (
     ",",
     ";",
