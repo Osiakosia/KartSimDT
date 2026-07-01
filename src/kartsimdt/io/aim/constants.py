@@ -26,3 +26,10 @@ DEFAULT_ENCODING = "utf-8"
 DEFAULT_TIME_CHANNEL = "Time"
 
 SUPPORTED_AIM_VERSIONS: tuple[str, ...] = ()
+
+REQUIRED_CHANNELS = (
+    "Time",
+    "GPS Speed",
+    "GPS Latitude",
+    "GPS Longitude",
+)

@@ -166,16 +166,19 @@ Defines AIM-specific exceptions.
 
 ---
 
-# Import Pipeline
+# AIM Import Pipeline
 
 ```text
                     AIM CSV
                        │
                        ▼
+             AimTelemetryParser
+                       │
+                       ▼
                 AimCsvReader
                        │
                        ▼
-                 Raw AIM Data
+                  AimRawData
                        │
                        ▼
                 AimValidator
@@ -193,11 +196,7 @@ Defines AIM-specific exceptions.
                        │
                        ▼
               TelemetrySession
-                       │
-                       ▼
-             AimTelemetryParser
 ```
-
 ---
 
 # Domain Mapping
@@ -284,14 +283,52 @@ Tasks:
 
 ## Sprint 2.3 — Validator
 
-Tasks:
+### Validate CSV structure
 
-* [ ] Validate CSV structure
-* [ ] Validate required channels
-* [ ] Validate timestamps
-* [ ] Validate missing values
-* [ ] Validate AIM version
-* [ ] Unit tests
+- [x] Metadata is not empty
+- [x] Channel names are not empty
+- [+] Channel units are not empty
+- [+] Samples are not empty
+- [+] Channel names count == channel units count
+- [+] Sample columns == channel names count
+
+### Validate required channels
+
+- [+] Required channel: Time
+- [+] Required channel: GPS Speed
+- [+] Required channel: GPS Latitude
+- [+] Required channel: GPS Longitude
+
+### Validate timestamps
+
+- [+] Time channel exists
+- [+] Time starts at zero
+- [+] Time is monotonically increasing
+- [+] No duplicated timestamps
+
+### Validate missing values
+
+- [ ] Metadata has no missing required values
+- [ ] Channel names contain no empty values
+- [ ] Samples contain no missing values
+
+### Validate AIM version
+
+- [ ] Format field exists
+- [ ] Supported AIM CSV format
+
+### Unit tests
+
+- [x] Empty metadata
+- [x] Empty channel names
+- [+] Empty channel units
+- [+] Empty samples
+- [+] Channel count mismatch
+- [+] Sample column mismatch
+- [ ] Missing required channel
+- [+] Invalid timestamps
+- [ ] Missing values
+- [ ] Invalid AIM version
 
 ---
 
