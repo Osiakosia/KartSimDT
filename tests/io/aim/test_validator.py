@@ -62,20 +62,6 @@ def test_validate_empty_samples() -> None:
         validator.validate(raw)
 
 
-def test_validate_empty_samples() -> None:
-    raw = AimRawData(
-        metadata={"Format": "AiM CSV File"},
-        channel_names=["Time"],
-        channel_units=["s"],
-        samples=pd.DataFrame(),
-    )
-
-    validator = AimValidator()
-
-    with pytest.raises(InvalidAimFileError):
-        validator.validate(raw)
-
-
 def test_validate_channel_count_mismatch() -> None:
     raw = AimRawData(
         metadata={"Format": "AiM CSV File"},
@@ -357,3 +343,286 @@ def test_validate_gps_speed_exists() -> None:
     validator = AimValidator()
 
     validator.validate(raw)
+
+
+def test_validate_missing_metadata_none() -> None:
+    raw = AimRawData(
+        metadata={
+            "Format": None,
+        },
+        channel_names=[
+            "Time",
+            "GPS Speed",
+            "GPS Latitude",
+            "GPS Longitude",
+        ],
+        channel_units=[
+            "s",
+            "km/h",
+            "deg",
+            "deg",
+        ],
+        samples=pd.DataFrame(
+            [
+                [0.00, 0.0, 54.5, 24.5],
+            ]
+        ),
+    )
+
+    validator = AimValidator()
+
+    with pytest.raises(InvalidAimFileError):
+        validator.validate(raw)
+
+
+def test_validate_empty_channel_name() -> None:
+    raw = AimRawData(
+        metadata={"Format": "AiM CSV File"},
+        channel_names=[
+            "Time",
+            "",
+            "GPS Latitude",
+            "GPS Longitude",
+        ],
+        channel_units=[
+            "s",
+            "km/h",
+            "deg",
+            "deg",
+        ],
+        samples=pd.DataFrame(
+            [
+                [0.00, 0.0, 54.5, 24.5],
+            ]
+        ),
+    )
+
+    validator = AimValidator()
+
+    with pytest.raises(InvalidAimFileError):
+        validator.validate(raw)
+
+
+def test_validate_whitespace_channel_name() -> None:
+    raw = AimRawData(
+        metadata={"Format": "AiM CSV File"},
+        channel_names=[
+            "Time",
+            "   ",
+            "GPS Latitude",
+            "GPS Longitude",
+        ],
+        channel_units=[
+            "s",
+            "km/h",
+            "deg",
+            "deg",
+        ],
+        samples=pd.DataFrame(
+            [
+                [0.00, 0.0, 54.5, 24.5],
+            ]
+        ),
+    )
+
+    validator = AimValidator()
+
+    with pytest.raises(InvalidAimFileError):
+        validator.validate(raw)
+
+
+def test_validate_missing_sample_value() -> None:
+    raw = AimRawData(
+        metadata={"Format": "AiM CSV File"},
+        channel_names=[
+            "Time",
+            "GPS Speed",
+            "GPS Latitude",
+            "GPS Longitude",
+        ],
+        channel_units=[
+            "s",
+            "km/h",
+            "deg",
+            "deg",
+        ],
+        samples=pd.DataFrame(
+            [
+                [0.00, 0.0, 54.5, 24.5],
+                [0.05, None, 54.5, 24.5],
+            ]
+        ),
+    )
+
+    validator = AimValidator()
+
+    with pytest.raises(InvalidAimFileError):
+        validator.validate(raw)
+
+
+def test_validate_valid_sample_values() -> None:
+    raw = AimRawData(
+        metadata={"Format": "AiM CSV File"},
+        channel_names=[
+            "Time",
+            "GPS Speed",
+            "GPS Latitude",
+            "GPS Longitude",
+        ],
+        channel_units=[
+            "s",
+            "km/h",
+            "deg",
+            "deg",
+        ],
+        samples=pd.DataFrame(
+            [
+                [0.00, 0.0, 54.5, 24.5],
+                [0.05, 1.0, 54.5, 24.5],
+                [0.10, 2.0, 54.5, 24.5],
+            ]
+        ),
+    )
+
+    validator = AimValidator()
+
+    validator.validate(raw)
+
+
+def test_validate_missing_format() -> None:
+    raw = AimRawData(
+        metadata={},
+        channel_names=[
+            "Time",
+            "GPS Speed",
+            "GPS Latitude",
+            "GPS Longitude",
+        ],
+        channel_units=[
+            "s",
+            "km/h",
+            "deg",
+            "deg",
+        ],
+        samples=pd.DataFrame(
+            [
+                [0.00, 0.0, 54.5, 24.5],
+            ]
+        ),
+    )
+
+    validator = AimValidator()
+
+    with pytest.raises(InvalidAimFileError):
+        validator.validate(raw)
+
+
+def test_validate_unsupported_format() -> None:
+    raw = AimRawData(
+        metadata={
+            "Format": "Unknown CSV",
+        },
+        channel_names=[
+            "Time",
+            "GPS Speed",
+            "GPS Latitude",
+            "GPS Longitude",
+        ],
+        channel_units=[
+            "s",
+            "km/h",
+            "deg",
+            "deg",
+        ],
+        samples=pd.DataFrame(
+            [
+                [0.00, 0.0, 54.5, 24.5],
+            ]
+        ),
+    )
+
+    validator = AimValidator()
+
+    with pytest.raises(InvalidAimFileError):
+        validator.validate(raw)
+
+
+def test_validate_supported_format() -> None:
+    raw = AimRawData(
+        metadata={
+            "Format": "AiM CSV File",
+        },
+        channel_names=[
+            "Time",
+            "GPS Speed",
+            "GPS Latitude",
+            "GPS Longitude",
+        ],
+        channel_units=[
+            "s",
+            "km/h",
+            "deg",
+            "deg",
+        ],
+        samples=pd.DataFrame(
+            [
+                [0.00, 0.0, 54.5, 24.5],
+            ]
+        ),
+    )
+
+    validator = AimValidator()
+
+    validator.validate(raw)
+
+
+def test_validate_missing_gps_latitude() -> None:
+    raw = AimRawData(
+        metadata={"Format": "AiM CSV File"},
+        channel_names=[
+            "Time",
+            "GPS Speed",
+            "GPS Longitude",
+        ],
+        channel_units=[
+            "s",
+            "km/h",
+            "deg",
+        ],
+        samples=pd.DataFrame(
+            [
+                [0.00, 10.0, 24.5],
+            ]
+        ),
+    )
+
+    validator = AimValidator()
+
+    with pytest.raises(InvalidAimFileError):
+        validator.validate(raw)
+
+
+def test_validate_missing_gps_longitude() -> None:
+    raw = AimRawData(
+        metadata={"Format": "AiM CSV File"},
+        channel_names=[
+            "Time",
+            "GPS Speed",
+            "GPS Latitude",
+        ],
+        channel_units=[
+            "s",
+            "km/h",
+            "deg",
+        ],
+        samples=pd.DataFrame(
+            [
+                [0.00, 10.0, 54.5],
+            ]
+        ),
+    )
+
+    validator = AimValidator()
+
+    with pytest.raises(InvalidAimFileError):
+        validator.validate(raw)

@@ -33,3 +33,5 @@ REQUIRED_CHANNELS = (
     "GPS Latitude",
     "GPS Longitude",
 )
+
+SUPPORTED_AIM_FORMATS = ("AiM CSV File",)

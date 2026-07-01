@@ -308,14 +308,14 @@ Tasks:
 
 ### Validate missing values
 
-- [ ] Metadata has no missing required values
-- [ ] Channel names contain no empty values
-- [ ] Samples contain no missing values
+- [+] Metadata has no missing required values
+- [+] Channel names contain no empty values
+- [+] Samples contain no missing values
 
 ### Validate AIM version
 
-- [ ] Format field exists
-- [ ] Supported AIM CSV format
+- [+] Format field exists
+- [+] Supported AIM CSV format
 
 ### Unit tests
 
@@ -325,10 +325,10 @@ Tasks:
 - [+] Empty samples
 - [+] Channel count mismatch
 - [+] Sample column mismatch
-- [ ] Missing required channel
+- [+] Missing required channel
 - [+] Invalid timestamps
-- [ ] Missing values
-- [ ] Invalid AIM version
+- [+] Missing values
+- [+] Invalid AIM version
 
 ---
 

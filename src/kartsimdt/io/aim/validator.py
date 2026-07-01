@@ -8,7 +8,7 @@ Validates raw AIM telemetry data.
 
 from __future__ import annotations
 
-from .constants import REQUIRED_CHANNELS
+from .constants import REQUIRED_CHANNELS, SUPPORTED_AIM_FORMATS
 from .exceptions import InvalidAimFileError
 from .raw import AimRawData
 
@@ -101,15 +101,52 @@ class AimValidator:
         raw: AimRawData,
     ) -> None:
         """
-        Validate missing metadata, channel names and samples.
-
-        TODO:
-            - Metadata required values
-            - Empty channel names
-            - Missing sample values
+        Validate missing metadata, channel names and sample values.
         """
 
-        pass
+        self._validate_missing_metadata(raw)
+        self._validate_missing_channel_names(raw)
+        self._validate_missing_sample_values(raw)
+
+    def _validate_missing_metadata(
+        self,
+        raw: AimRawData,
+    ) -> None:
+        """
+        Validate metadata values.
+        """
+
+        for key, value in raw.metadata.items():
+
+            if value is None:
+                raise InvalidAimFileError(f"Metadata field '{key}' is missing.")
+
+            if isinstance(value, str) and not value.strip():
+                raise InvalidAimFileError(f"Metadata field '{key}' is empty.")
+
+    def _validate_missing_channel_names(
+        self,
+        raw: AimRawData,
+    ) -> None:
+        """
+        Validate empty channel names.
+        """
+
+        for name in raw.channel_names:
+
+            if not name.strip():
+                raise InvalidAimFileError("Channel name cannot be empty.")
+
+    def _validate_missing_sample_values(
+        self,
+        raw: AimRawData,
+    ) -> None:
+        """
+        Validate missing telemetry sample values.
+        """
+
+        if raw.samples.isnull().values.any():
+            raise InvalidAimFileError("Telemetry samples contain missing values.")
 
     def _validate_version(
         self,
@@ -117,10 +154,12 @@ class AimValidator:
     ) -> None:
         """
         Validate AIM CSV format version.
-
-        TODO:
-            - Format field exists
-            - Supported AIM version
         """
 
-        pass
+        if "Format" not in raw.metadata:
+            raise InvalidAimFileError("Metadata field 'Format' is missing.")
+
+        format_name = raw.metadata["Format"]
+
+        if format_name not in SUPPORTED_AIM_FORMATS:
+            raise InvalidAimFileError(f"Unsupported AIM format: {format_name}")
