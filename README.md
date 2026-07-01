@@ -1,76 +1,97 @@
-# KartSimDT
+# 📘 KartSimDT
 
-Telemetry  →  Track  →  Vehicle  →  Physics  →  Digital Twin  →  Optimization
+> **Engineering the Digital Future of Kart Racing**
+
+Telemetry → Track → Vehicle → Physics → Digital Twin → Optimization
 
 **Kart Simulation Digital Twin Toolkit**
 
-**An open engineering and research platform for creating validated digital twins of kart racing tracks from real telemetry, geospatial data and physics-based simulation.**
+An open engineering and research platform for transforming real-world kart racing telemetry into validated Digital Twins for simulation, analysis, optimization, and scientific research.
 
 ---
 
-# Project Vision
-The platform is designed around real reference datasets and reproducible engineering workflows.
+# 🎯 Project Vision
 
-KartSimDT aims to provide a complete workflow for transforming real-world karting telemetry into accurate digital twins suitable for:
+KartSimDT is an engineering platform designed to reconstruct real kart racing circuits using telemetry, geospatial data, and physics-based simulation.
 
-- Track analysis
-- Racing line optimization
-- Driver performance analysis
-- Vehicle simulation
-- AI research
-- Physics validation
-- 3D visualization
-- Digital track preservation
+The project combines software engineering, telemetry analysis, computational geometry, and vehicle dynamics into a unified Digital Twin platform.
 
-The long-term goal is to build a modular research platform capable of reconstructing real kart circuits and simulating vehicle dynamics with high accuracy.
+The long-term objective is to create reproducible and validated digital representations of kart tracks that support engineering research, simulation, and performance optimization.
 
 ---
 
-# Main Features
+# 🏗 Platform Architecture
 
-## Telemetry
+```
+                    KartSimDT
+
+              Engineering Platform
+
+                        │
+        ┌───────────────┼───────────────┐
+        │               │               │
+        ▼               ▼               ▼
+   Import Layer    Core Domain    Applications
+        │               │               │
+        ▼               ▼               ▼
+ Telemetry       Digital Twin      Blender
+ GIS             Physics           Assetto Corsa
+ Images          Simulation        Research
+```
+
+---
+
+# ✨ Main Features
+
+## 📡 Telemetry
 
 - AIM Sports telemetry import
 - Automatic lap detection
 - Channel validation
-- Telemetry filtering
 - Session analysis
 - Multi-session comparison
 
-## Track Reconstruction
+---
+
+## 🗺 Track Reconstruction
 
 - Google Earth KML import
 - Orthophoto import
-- Track centerline reconstruction
-- Track width estimation
+- Centerline reconstruction
 - Elevation reconstruction
 - 3D track generation
 
-## Digital Twin
+---
+
+## 🚗 Digital Twin
 
 - Complete digital track model
 - Modular architecture
-- Multiple kart models
-- Configurable vehicle parameters
+- Vehicle models
 - Physics-based simulation
 
-## Optimization
+---
+
+## 📈 Optimization
 
 - Racing line optimization
-- Corner analysis
 - Driver comparison
-- Performance metrics
-- AI-assisted analysis
+- Corner analysis
+- AI-assisted research
 
-## Reference Data
+---
 
-- Real AIM telemetry
+## 📂 Reference Data
+
+- AIM telemetry
 - Google Earth KML
-- Orthophoto imagery
-- Reference Tracks
+- Orthophotos
 - Validation datasets
+- Reference tracks
 
-## Export
+---
+
+## 📤 Export
 
 - Blender
 - Unity
@@ -80,208 +101,192 @@ The long-term goal is to build a modular research platform capable of reconstruc
 
 ---
 
-# Project Architecture
+# 📊 Current Development Status
 
-```
-   Digital Twin
-
-Reference Tracks
-        │
-        ▼
-Telemetry Import
-        │
-        ▼
-Track Reconstruction
-        │
-        ▼
-Digital Twin Core
-        │
-        ▼
-Simulation
-        │
-        ▼
-Optimization
-        │
-        ▼
-Visualization```
+| Module | Status |
+|----------|:------:|
+| Documentation | 🟢 |
+| Project Architecture | 🟢 |
+| AIM CSV Reader | 🟢 |
+| AIM Validator | 🟢 |
+| AIM Channel Mapper | 🟡 |
+| Telemetry Domain | ⚪ |
+| Track Reconstruction | ⚪ |
+| Physics Engine | ⚪ |
+| Digital Twin | ⚪ |
 
 ---
 
-# Current Development Stage
-
-**Current Version**
-
-**v0.1 — Project Architecture**
-
-The initial project structure has been established.
-
-Current development focuses on:
-
-- Architecture
-- Documentation
-- AIM Telemetry Parser
-- Core Digital Twin classes
-
----
-
-# Development Roadmap
+# 🛣 Development Roadmap
 
 | Version | Status | Description |
 |----------|:------:|-------------|
-| v0.1 | ✅ | Project architecture |
-| v0.2 | 🔄 | AIM telemetry parser |
-| v0.3 | ⏳ | Google Earth KML import |
-| v0.4 | ⏳ | Track geometry |
-| v0.5 | ⏳ | Digital Twin core |
-| v0.6 | ⏳ | Vehicle models |
-| v0.7 | ⏳ | Physics simulation |
-| v0.8 | ⏳ | Racing line optimization |
-| v0.9 | ⏳ | Complete Digital Twin |
-| v1.0 | ⏳ | Research Platform Release |
+| v0.1 | 🟢 | Project foundation |
+| v0.2 | 🟡 | AIM telemetry import |
+| v0.3 | ⚪ | Google Earth KML |
+| v0.4 | ⚪ | Track reconstruction |
+| v0.5 | ⚪ | Digital Twin Core |
+| v0.6 | ⚪ | Vehicle models |
+| v0.7 | ⚪ | Physics engine |
+| v0.8 | ⚪ | Optimization |
+| v0.9 | ⚪ | Validation |
+| v1.0 | ⚪ | Research Platform |
 
 ---
 
-# Technology Stack
+# ⚙ Technology Stack
 
-## Programming Language
+## Programming
 
 - Python 3.13+
 
-## Scientific Libraries
+## Scientific Computing
 
 - NumPy
 - Pandas
 - SciPy
 - Matplotlib
 
-## Geometry & GIS
+## GIS & Geometry
 
 - Shapely
 - PyProj
 - lxml
 
-## Data Sources
-
-- AIM Sports
-- Google Earth
-- Orthophoto imagery
-
-## Image Processing
+## Computer Vision
 
 - OpenCV
 
-## Development Tools
+## Development
 
-- Black
-- Ruff
+- black
+- ruff
 - mypy
 - pytest
 - pre-commit
 
 ---
 
-# Repository Structure
+# 📁 Repository Structure
 
 ```
 KartSimDT/
 
 docs/
 data/
-   experiments/
-   reference/
-   track/
-   validation/
-    vehicles/
 examples/
 tests/
 
 src/
-    kartsimdt/
-        core/
-        io/
-        telemetry/
-        geometry/
-        track/
-        terrain/
-        vehicle/
-        simulation/
-        optimization/
-        adapters/
-        utils/
+└── kartsimdt/
+    ├── core/
+    ├── io/
+    ├── telemetry/
+    ├── geometry/
+    ├── track/
+    ├── terrain/
+    ├── vehicle/
+    ├── simulation/
+    ├── optimization/
+    ├── adapters/
+    └── utils/
 ```
 
 ---
 
-# Design Principles
+# 🔄 Development Workflow
 
-The project follows several fundamental principles:
+Every engineering task follows the same workflow.
 
-- Modular architecture
-- Separation of concerns
-- Test-driven development
-- Reproducible research
-- Extensible simulation models
-- Clear documentation
-- Open-source collaboration
-
----
-
-# Project Objectives
-
-The platform is intended to support:
-
-- Kart track reconstruction
-- Digital Twin generation
-- Vehicle dynamics research
-- Telemetry analysis
-- Racing line optimization
-- Educational projects
-- Scientific research
-
----
-
-# Engineering Principles
-
-KartSimDT follows modern software engineering practices:
-
-- Modular architecture
-- Reference datasets
-- Reproducible research
-- Validation-first development
-- Test-driven implementation
-- Extensible Digital Twin models
+```
+Plan
+    │
+    ▼
+Architecture
+    │
+    ▼
+Implementation
+    │
+    ▼
+black
+    │
+    ▼
+ruff
+    │
+    ▼
+mypy
+    │
+    ▼
+pytest
+    │
+    ▼
+Documentation
+    │
+    ▼
+Git Commit
+```
 
 ---
 
-# Documentation
+# 🌳 Branch Strategy
 
-Detailed documentation is available in the **docs/** directory.
+```
+KartSimDT
+      │
+      ├──────────────┐
+      │              │
+      ▼              ▼
+    Main         Applied
+      │              │
+      ▼              ▼
+ Stable Core   Engineering Validation
+                     │
+                     ▼
+              Assetto Corsa
+```
 
-- Architecture
-- Development Guide
-- API Documentation
-- Telemetry Specification
-- Track Model
-- Research Notes
-- Design Decisions
-- Roadmap
-
----
-
-# License
-
-This project is distributed under the MIT License.
-
----
-
-# Project Motto
-
-> **Engineering the digital future of kart racing.**
+The **Applied** branch continuously validates the Core architecture using real engineering demonstrators.
 
 ---
 
-# Project Status
+# 📚 Documentation
 
-🚧 Work in Progress
+Project documentation is located in the `docs/` directory.
 
-KartSimDT is currently under active development.
+| Document | Description |
+|----------|-------------|
+| 📘 Style Guide | Engineering standards |
+| 🏗 Architecture | System architecture |
+| 🛣 Roadmap | Development roadmap |
+| 📈 Development | Current project status |
+| 📑 Design Decisions | Architecture decisions |
+| 📥 AIM Import | AIM telemetry specification |
+
+---
+
+# 💡 Project Philosophy
+
+KartSimDT is developed according to engineering-first principles.
+
+- Architecture before implementation
+- Validation before assumptions
+- Physics before visualization
+- Digital Twins built from reality
+
+---
+
+# 📄 License
+
+Distributed under the MIT License.
+
+---
+
+# 🚧 Project Status
+
+KartSimDT is under active development.
+
+The current focus is building a robust engineering foundation before expanding into full Digital Twin simulation and optimization.
+
+---
+
+> **Engineering the Digital Future of Kart Racing**
