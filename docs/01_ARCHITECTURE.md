@@ -1,401 +1,493 @@
-# KartSimDT
+# 🏗 KartSimDT Architecture
 
-**Document:** ARCHITECTURE
+## 📄 Document Information
 
-**Version:** v0.1
-
-**Last Updated:** 2026-06-27
-
----
-
-# System Architecture
-
-KartSimDT is designed as a modular research platform for creating high-fidelity digital twins of kart racing tracks.
-
-The architecture follows a layered design where each module has a single responsibility and communicates through well-defined interfaces.
-
-The system is intended to grow gradually while maintaining backward compatibility and clear module separation.
+| Property | Value |
+|----------|-------|
+| Document | System Architecture |
+| Version | v1.0 |
+| Status | 🟡 In Development |
+| Last Updated | 2026-07-01 |
 
 ---
 
-# Core Design Principles
+# 🎯 Purpose
 
-The architecture is based on the following principles:
+This document defines the software architecture of the KartSimDT platform.
 
-- Modular design
+Its purpose is to describe how the system is organized, how individual modules interact, and which engineering principles govern the overall design.
+
+The architecture is intended to provide a stable foundation for long-term development while supporting future extensions, research activities, and Digital Twin applications.
+
+This document complements the repository **README** by describing the internal engineering architecture rather than the project overview.
+
+---
+
+# 🌍 System Overview
+
+KartSimDT is an engineering platform for transforming real-world kart racing data into validated Digital Twins.
+
+The platform combines telemetry processing, computational geometry, vehicle dynamics, and physics-based simulation into a modular software architecture.
+
+High-level engineering workflow:
+
+```text
+Telemetry
+      │
+      ▼
+Track Reconstruction
+      │
+      ▼
+Vehicle Modeling
+      │
+      ▼
+Physics Simulation
+      │
+      ▼
+Digital Twin
+      │
+      ▼
+Optimization
+```
+
+The platform is designed around independent modules with clearly defined responsibilities.
+
+Each module communicates through stable domain models, allowing new functionality to be added without affecting the overall architecture.
+
+---
+
+# 🏛 Architectural Principles
+
+KartSimDT follows modern software engineering principles.
+
+## Core Principles
+
+- Modular architecture
 - Separation of concerns
 - High cohesion
 - Low coupling
+- Single responsibility
 - Extensibility
 - Testability
-- Reproducible research
-- Independent modules
-
----
-# Architecture Goals
-
-The primary goals of the architecture are:
-
-• Scalability
-• Maintainability
-• Scientific reproducibility
-• Modularity
-• Extensibility
-• Interoperability
+- Reproducible engineering
+- Validation-first development
 
 ---
 
-# Reference Datasets
+## Engineering Goals
 
-KartSimDT is validated using real-world karting data.
+The architecture is designed to achieve:
 
-Current reference datasets:
-
-• Rotena Kart Track
-• Anykščiai Kart Track
-
-Each dataset may contain:
-
-• AIM telemetry
-• Google Earth KML
-• Orthophotos
-• Metadata
-• Validation measurements
+- Scalability
+- Maintainability
+- Reusability
+- Scientific reproducibility
+- Interoperability
+- Platform independence
+- Long-term evolution
 
 ---
 
-# High-Level Architecture
+## Design Philosophy
 
-```
-                     Digital Twin
-                          │
-        ┌─────────────────┼─────────────────┐
-        │                 │                 │
-     Telemetry        Geometry          Vehicle
-        │                 │                 │
-        └──────────────┬──┴─────────────────┘
-                       │
-                     Core
-                       │
-                Simulation Engine
-                       │
-                 Optimization
-                       │
-                   Export Layer
-```
+The architecture is based on a simple engineering principle:
+
+> Build a stable Core that remains independent of external data formats, applications, and visualization tools.
+
+External systems communicate with the platform exclusively through adapters, while the Core contains the shared engineering domain and business logic.
+
+This separation enables KartSimDT to evolve without introducing unnecessary coupling between internal components and external technologies.
 
 ---
 
+# 🧱 Layered Architecture
 
+KartSimDT follows a layered architecture in which each layer has a clearly defined responsibility.
 
-# Project Structure
+Higher layers depend only on stable interfaces provided by lower layers, while the Core remains independent of external systems.
 
-```
-src/
-└── kartsimdt/
-    ├── core/
-    ├── io/
-    ├── telemetry/
-    ├── geometry/
-    ├── track/
-    ├── terrain/
-    ├── vehicle/
-    ├── simulation/
-    ├── optimization/
-    ├── adapters/
-    └── utils/
+```text
+                 External Data Sources
+                         │
+                         ▼
+                  Import Layer (IO)
+                         │
+                         ▼
+                 Core Domain Layer
+                         │
+                         ▼
+                 Simulation Layer
+                         │
+                         ▼
+               Application Layer
+                         │
+                         ▼
+              External Applications
 ```
 
----
+## Layer Responsibilities
 
-# Module Responsibilities
+| Layer | Responsibility |
+|--------|----------------|
+| Import Layer | Read and validate external data formats |
+| Core Domain | Shared engineering models and business logic |
+| Simulation Layer | Physics simulation and Digital Twin processing |
+| Application Layer | Analysis, visualization and optimization |
 
-## Core
-
-The project kernel.
-
-Responsible for:
-
-- Digital Twin
-- Shared models
-- Configuration
-- Units
-- Interfaces
-- Exceptions
-
-The Core must never depend on external adapters.
+> [!IMPORTANT]
+> The Core Domain must never depend on external file formats, user interfaces, or visualization software.
 
 ---
 
-## IO
+# 📦 Core Modules
 
-Responsible for importing and exporting external data.
+The Core is organized into independent engineering modules.
 
-Supported formats:
+Each module owns a single engineering domain and exposes a stable public interface.
 
-- AIM telemetry
-- CSV
-- KML
-- PNG
-- Future data formats
-
----
-
-## Telemetry
-
-Responsible for:
-
-- Telemetry sessions
-- Lap management
-- Channel processing
-- Filtering
-- Analysis
-
----
-
-## Geometry
-
-Responsible for:
-
-- Coordinate systems
-- Geometry calculations
-- Interpolation
-- Elevation
-- Spatial algorithms
-
----
-
-## Track
-
-Responsible for:
-
-- Track model
-- Centerline
-- Track width
-- Kerbs
-- Boundaries
-- Surface description
-
----
-
-## Terrain
-
-Responsible for:
-
-- Terrain mesh
-- Elevation model
-- Ground surface
-- Environment data
-
----
-
-## Vehicle
-
-Responsible for:
-
-- Kart models
-- Vehicle parameters
-- Tires
-- Engine
-- Chassis
-- Driver model
-
----
-
-## Simulation
-
-Responsible for:
-
-- Physics engine
-- Dynamic simulation
-- Time integration
-- Vehicle motion
-
----
-
-## Optimization
-
-Responsible for:
-
-- Racing line optimization
-- Parameter optimization
-- Lap comparison
-- Performance analysis
-
----
-
-## Adapters
-
-Responsible for communication with external software.
-
-Examples:
-
-- Blender
-- Unity
-- Google Earth
-- Future simulators
-
----
-
-## Utils
-
-General helper utilities shared across the project.
-
-Examples:
-
-- Logging
-- File utilities
-- Mathematical helpers
-- Validation
-
----
-
-# Data Flow
-
-```
-Reference Data
-
-AIM CSV
-Google Earth KML
-Orthophoto
-
-        │
-        ▼
-
-Import Layer
-
-        │
-        ▼
-
-Telemetry Processing
-
-        │
-        ▼
-
-Track Reconstruction
-
-        │
-        ▼
-
-Digital Twin
-
-        │
-        ▼
-
-Simulation
-
-        │
-        ▼
-
-Optimization
-
-        │
-        ▼
-
-Visualization / Export
-
-```
-
----
-
-# Dependency Rules
-
-The dependency direction must always point toward the Core.
-
-```
-Adapters
-      │
-IO
-      │
-Telemetry
-      │
-Geometry
-      │
+```text
 Core
+
+├── Telemetry
+├── Geometry
+├── Track
+├── Terrain
+├── Vehicle
+├── Simulation
+├── Optimization
+└── Utilities
 ```
 
-Core must never import higher-level modules.
+## Module Responsibilities
+
+| Module | Responsibility |
+|----------|----------------|
+| Telemetry | Telemetry sessions, laps, channels and metadata |
+| Geometry | Coordinate systems and geometric algorithms |
+| Track | Track model and reconstruction |
+| Terrain | Terrain and elevation models |
+| Vehicle | Vehicle configuration and dynamics |
+| Simulation | Physics engine and Digital Twin simulation |
+| Optimization | Racing line and performance optimization |
+| Utilities | Shared helper components |
+
+Each module is responsible only for its own engineering domain.
+
+Communication between modules should occur through well-defined public interfaces.
 
 ---
 
-# Domain Model Ownership
+# 📁 Repository Structure
 
-KartSimDT maintains a single telemetry domain model.
+The repository is organized according to the layered architecture.
 
-The `telemetry` module defines the canonical representation of telemetry data:
+```text
+KartSimDT/
+
+├── docs/
+├── data/
+├── examples/
+├── tests/
+│
+└── src/
+    └── kartsimdt/
+        ├── core/
+        ├── io/
+        ├── telemetry/
+        ├── geometry/
+        ├── track/
+        ├── terrain/
+        ├── vehicle/
+        ├── simulation/
+        ├── optimization/
+        ├── adapters/
+        └── utils/
+```
+
+## Repository Organization
+
+| Directory | Purpose |
+|-----------|----------|
+| docs | Engineering documentation |
+| data | Reference datasets and validation data |
+| examples | Usage examples |
+| tests | Automated tests |
+| src | Project source code |
+
+The repository structure reflects the engineering architecture, ensuring that documentation, implementation, testing, and reference data remain clearly separated.
+
+---
+
+# 🔄 Data Flow
+
+KartSimDT processes engineering data through a well-defined transformation pipeline.
+
+Each stage has a single responsibility and produces data for the next stage.
+
+```text
+External Data
+      │
+      ▼
+Import Adapter
+      │
+      ▼
+Raw Data
+      │
+      ▼
+Validation
+      │
+      ▼
+Domain Mapping
+      │
+      ▼
+Core Domain Objects
+      │
+      ▼
+Simulation
+      │
+      ▼
+Analysis & Optimization
+      │
+      ▼
+Export / Visualization
+```
+
+## Data Processing Stages
+
+| Stage | Responsibility |
+|--------|----------------|
+| Import Adapter | Read external file formats |
+| Raw Data | Temporary representation of imported data |
+| Validation | Verify integrity and consistency |
+| Domain Mapping | Convert imported data into the common domain model |
+| Core Domain | Store engineering objects |
+| Simulation | Execute Digital Twin algorithms |
+| Analysis | Produce engineering results |
+| Export | Communicate with external applications |
+
+Each stage performs exactly one engineering responsibility.
+
+---
+
+# 🧩 Domain Model Ownership
+
+KartSimDT maintains a single engineering domain model.
+
+Domain objects are owned exclusively by the Core.
+
+External file formats never introduce their own business objects.
+
+```text
+External Format
+       │
+       ▼
+ Import Adapter
+       │
+       ▼
+   Raw Data
+       │
+       ▼
+ Domain Mapper
+       │
+       ▼
+ Core Domain Model
+```
+
+Examples of Core domain objects include:
 
 - TelemetrySession
 - SessionMetadata
+- TelemetryChannel
 - Lap
 - LapCollection
-- TelemetryChannel
-- ChannelCollection
 
-External data formats must never define their own domain objects.
+Import adapters are responsible only for transforming external data into these shared objects.
 
-Instead, every IO adapter is responsible for transforming external data into the common telemetry model.
-
-Example:
-
-AIM CSV
-      │
-      ▼
-AIM Parser
-      │
-      ▼
-TelemetrySession
-
-The IO layer acts only as an adapter between external formats and the internal domain model.
-
-This principle ensures:
+This architecture provides:
 
 - Single source of truth
-- Consistent processing
-- Easy support for additional telemetry formats
-- Minimal code duplication
-- Stable public API
+- Consistent engineering workflow
+- Minimal duplication
+- Stable public interfaces
+- Easy integration of new data formats
 
 ---
 
-# Development Philosophy
+# 🔌 Adapter Architecture
 
-KartSimDT evolves incrementally.
+External systems communicate with KartSimDT exclusively through adapters.
 
-Each release should:
+Adapters isolate external technologies from the engineering Core.
 
-• remain functional
-• remain documented
-• remain testable
-• preserve backward compatibility whenever practical
+```text
+           External Systems
+
+ AIM CSV      KML      Orthophoto
+    │          │            │
+    └──────────┼────────────┘
+               ▼
+        Import Adapters
+               │
+               ▼
+         KartSimDT Core
+               │
+               ▼
+        Export Adapters
+               │
+    ┌──────────┼──────────┐
+    ▼          ▼          ▼
+ Blender   Assetto Corsa  Research Tools
+```
+
+## Adapter Responsibilities
+
+| Adapter | Responsibility |
+|----------|----------------|
+| Import | Read external engineering data |
+| Export | Provide data to external applications |
+
+Adapters should contain no business logic.
+
+Their responsibility is limited to data transformation and communication.
 
 ---
 
-# Future Expansion
+# 🌳 Branch Architecture
 
-The architecture is designed to support future modules including:
+KartSimDT development follows a dual-branch strategy.
 
-- AI-assisted racing line optimization
-- Machine learning
-- Tire models
-- Suspension models
-- Weather simulation
-- Multi-vehicle simulation
-- Virtual coaching
-- Digital twin synchronization
+```text
+                 KartSimDT
+
+                      │
+        ┌─────────────┴─────────────┐
+        │                           │
+        ▼                           ▼
+     Main Branch              Applied Branch
+        │                           │
+        ▼                           ▼
+ Stable Engineering Core   Engineering Validation
+                                    │
+                                    ▼
+                          Assetto Corsa
+                          Blender
+                          Research Projects
+```
+
+## Branch Responsibilities
+
+| Branch | Purpose |
+|----------|----------|
+| Main | Stable engineering platform |
+| Applied | Validation using real engineering applications |
+
+The Main branch contains reusable platform components.
+
+The Applied branch demonstrates and validates those components using real-world engineering scenarios.
+
+This separation allows the Core to evolve independently while continuously validating its design through practical applications.
 
 ---
 
- # Architecture Evolution
+# 📈 Architecture Evolution
 
-Version 0.1 establishes the core architecture.
+KartSimDT is designed to evolve incrementally while preserving the stability of its Core architecture.
 
-Future versions will extend the platform without changing the fundamental module hierarchy.
- ---
+New functionality should extend the platform rather than modify existing engineering principles.
 
-# Architecture Status
+The long-term evolution follows a layered progression.
 
-Current version:
+```text
+Telemetry
+      │
+      ▼
+Track Reconstruction
+      │
+      ▼
+Vehicle Modeling
+      │
+      ▼
+Physics Simulation
+      │
+      ▼
+Digital Twin
+      │
+      ▼
+Optimization
+      │
+      ▼
+Research Platform
+```
 
-**v0.1**
+Each development stage builds upon previously validated engineering components.
 
-This document defines the initial architecture of KartSimDT and will evolve together with the project.
+---
+
+# 🚀 Future Expansion
+
+The architecture has been intentionally designed to support future engineering modules without requiring fundamental redesign.
+
+## Planned Extensions
+
+| Area | Planned Capability |
+|------|--------------------|
+| Telemetry | Additional telemetry formats |
+| GIS | Advanced geospatial processing |
+| Track | Automatic track reconstruction |
+| Vehicle | Multiple kart configurations |
+| Physics | Advanced tire and suspension models |
+| Simulation | Multi-vehicle simulation |
+| Optimization | AI-assisted racing line optimization |
+| Visualization | Real-time Digital Twin rendering |
+| Research | Machine learning and engineering validation |
+
+Future modules should integrate through stable interfaces while preserving Core independence.
+
+---
+
+# 🛡 Architecture Stability
+
+The following principles should remain stable throughout the lifetime of the project.
+
+## Stable Components
+
+- Engineering Core
+- Domain model
+- Layered architecture
+- Adapter pattern
+- Module responsibilities
+- Public interfaces
+
+## Evolutionary Components
+
+- Import adapters
+- Export adapters
+- Physics models
+- Vehicle models
+- Optimization algorithms
+- External integrations
+
+Stable architectural principles reduce technical debt and enable long-term maintainability.
+
+---
+
+# 📌 Summary
+
+KartSimDT is built as a modular engineering platform centered around a stable Core domain.
+
+The architecture separates external technologies from engineering logic through clearly defined layers and adapters, allowing the platform to evolve without compromising maintainability or extensibility.
+
+The guiding principles of the architecture are:
+
+- Modular engineering design
+- Stable Core domain
+- Layered architecture
+- Adapter-based integration
+- Validation-first development
+- Reproducible engineering workflows
+
+Together, these principles establish a scalable foundation for building validated Digital Twins of kart racing tracks and supporting future engineering research.
+
+---
+
+> **A stable architecture enables sustainable innovation.**
