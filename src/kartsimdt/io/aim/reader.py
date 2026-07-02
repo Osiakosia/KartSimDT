@@ -281,6 +281,8 @@ class AimCsvReader:
             delimiter,
         )
 
+        samples.columns = channel_names
+
         return AimRawData(
             metadata=metadata,
             channel_names=channel_names,

@@ -334,24 +334,41 @@ Tasks:
 
 ## Sprint 2.4 — Channel Mapping
 
-Tasks:
+### Goal
 
-* [ ] Create AIM channel registry
-* [ ] Map AIM channel names
-* [ ] Normalize channel units
-* [ ] Create TelemetryChannel objects
-* [ ] Unit tests
+Establish the channel mapping layer between AIM telemetry files and the KartSimDT telemetry domain.
 
----
+### Tasks
 
-## Sprint 2.5 — Metadata Extraction
+#### Channel Registry
+
+- [+] Create AIM channel registry
+- [+] Map AIM channel names to KartSimDT channel identifiers
+- [ ] Define channel aliases *(deferred until alternative AIM channel variants are available)*
+- [+] Normalize channel units
+
+#### Mapper
+
+- [+] Create `AimMapper` skeleton
+- [+] Implement channel mapping
+- [+] Create `TelemetryChannel` objects
+- [+] Build `ChannelCollection`
+
+#### Unit Tests
+
+- [+] Test channel registry
+- [ ] Test channel aliases *(deferred)*
+- [+] Test unit normalization
+- [+] Test channel mapping
+
+~~## Sprint 2.5 — Metadata Extraction
 
 Tasks:
 
 * [ ] Parse session metadata
 * [ ] Create SessionMetadata
 * [ ] Parse logger information
-* [ ] Unit tests
+* [ ] Unit tests~~
 
 ---
 
