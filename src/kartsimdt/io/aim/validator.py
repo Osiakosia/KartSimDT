@@ -116,13 +116,16 @@ class AimValidator:
         Validate metadata values.
         """
 
-        for key, value in raw.metadata.items():
+        if "Format" not in raw.metadata:
+            raise InvalidAimFileError("Metadata field 'Format' is missing.")
 
-            if value is None:
-                raise InvalidAimFileError(f"Metadata field '{key}' is missing.")
+        value = raw.metadata["Format"]
 
-            if isinstance(value, str) and not value.strip():
-                raise InvalidAimFileError(f"Metadata field '{key}' is empty.")
+        if value is None:
+            raise InvalidAimFileError("Metadata field 'Format' is missing.")
+
+        if isinstance(value, str) and not value.strip():
+            raise InvalidAimFileError("Metadata field 'Format' is empty.")
 
     def _validate_missing_channel_names(
         self,

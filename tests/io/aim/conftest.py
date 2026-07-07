@@ -41,3 +41,24 @@ def validated_raw(raw_data: AimRawData) -> AimRawData:
     validator.validate(raw_data)
 
     return raw_data
+
+
+@pytest.fixture(scope="session")
+def session_csv() -> Path:
+    """
+    Return the full Rotena AIM session dataset.
+    """
+    return Path("tests/data/aim/rotena_session.csv")
+
+
+@pytest.fixture(scope="session")
+def session_raw(session_csv: Path) -> AimRawData:
+    reader = AimCsvReader()
+    return reader.read(session_csv)
+
+
+@pytest.fixture(scope="session")
+def validated_session(session_raw: AimRawData) -> AimRawData:
+    validator = AimValidator()
+    validator.validate(session_raw)
+    return session_raw

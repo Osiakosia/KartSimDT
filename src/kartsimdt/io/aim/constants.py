@@ -34,4 +34,10 @@ REQUIRED_CHANNELS = (
     "GPS Longitude",
 )
 
+
 SUPPORTED_AIM_FORMATS = ("AiM CSV File",)
+
+MULTI_VALUE_METADATA = {
+    "Beacon Markers",
+    "Segment Times",
+}

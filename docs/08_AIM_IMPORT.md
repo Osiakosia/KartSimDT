@@ -365,27 +365,148 @@ Establish the channel mapping layer between AIM telemetry files and the KartSimD
 
 Tasks:
 
-* [ ] Parse session metadata
-* [ ] Create SessionMetadata
+* [+] Parse session metadata
+* [+] Create SessionMetadata
 * [ ] Parse logger information
-* [ ] Unit tests~~
+* [+] Unit tests~~
 
 ---
 
-## Sprint 2.6 — Lap Detection
+## Sprint 2.6 — Lap Mapping
+
+### Goal
+
+Map AIM lap information into the KartSimDT telemetry domain model.
+
+---
+
+### Phase 1 — AIM Analysis
 
 Tasks:
 
-* [ ] Analyze real AIM telemetry datasets
-* [ ] Identify beacon information
-* [ ] Identify lap timing information
-* [ ] Design lap detection algorithm
-* [ ] Implement `beacons.py`
-* [ ] Implement `laps.py`
-* [ ] Detect laps
-* [ ] Detect sectors
+* [x] Analyze real AIM telemetry datasets
+* [x] Inspect beacon marker information
+* [x] Inspect lap timing information
+* [x] Create `devtools/inspect_laps.py`
+* [x] Verify full session CSV layout
+* [x] Verify beacon marker consistency
+* [x] Verify lap time consistency
+
+---
+
+### Phase 2 — Domain Design
+
+Tasks:
+
+* [+] Review `Lap` domain model
+* [+] Extend `Lap` with future-proof attributes
+* [+] Review `LapCollection`
+* [+] Add convenient collection methods
+* [+] Review future `Sector` model
+
+---
+
+### Phase 3 — AIM Lap Parsing
+
+Tasks:
+
+* [+] Create `lap_parser.py`
+* [+] Parse `Beacon Markers`
+* [+] Parse `Segment Times`
+* [+] Normalize lap timing values
+* [ ] Validate parsed lap information
+
+
+
+---
+
+### Phase 4 — Lap Mapping
+
+Tasks:
+
+* [ ] Implement `_map_laps()`
 * [ ] Build `LapCollection`
-* [ ] Unit tests
+* [ ] Preserve beacon information
+* [ ] Preserve lap timing information
+
+---
+
+### Phase 5 — Validation
+
+Tasks:
+
+* [ ] Create `inspect_beacons.py`
+* [ ] Verify mapped laps
+* [ ] Create lap mapper unit tests
+* [ ] Validate using `rotena_session.csv`
+
+---
+
+### Phase 6 — End-to-End Integration
+
+Tasks:
+
+* [x] Create end-to-end telemetry integration test
+* [+] Complete `TelemetrySession` pipeline
+* [+] Verify integration test passes
+
+---
+
+### Definition of Done
+
+```text
+TelemetrySession
+
+✓ Metadata
+✓ Channels
+✓ Laps
+
+Complete AIM Telemetry Import
+```
+
+```
+
+### Phase 6 — End-to-End Integration
+
+Tasks:
+
+* [+] Create full AIM import integration test
+* [+] Read real session CSV
+* [+] Validate raw data
+* [+] Map TelemetrySession
+* [+] Verify complete domain object
+
+Telemetry Core v1.0 completed.
+
+
+### Definition of Done
+
+```text
+AIM CSV
+      │
+      ▼
+Reader
+      │
+      ▼
+AimRawData
+      │
+      ▼
+Validator
+      │
+      ▼
+Mapper
+      ├── Metadata      ✓
+      ├── Channels      ✓
+      └── Laps          ✓
+      │
+      ▼
+TelemetrySession
+      ├── Metadata      ✓
+      ├── Channels      ✓
+      └── Laps          ✓
+```
+
+Telemetry Core v1.0 completed.
 
 
 ---
@@ -394,10 +515,10 @@ Tasks:
 
 Tasks:
 
-* [ ] Build complete parser pipeline
-* [ ] Create TelemetrySession
-* [ ] Import complete AIM session
-* [ ] Integration tests
+* [+] Build complete parser pipeline
+* [+] Create TelemetrySession
+* [+] Import complete AIM session
+* [+] Integration tests
 
 ---
 

@@ -1,53 +1,81 @@
 # 🔬 KartSimDT Research Notebook
 
-## Purpose
+Version: 0.2
 
-The Research Notebook records the scientific and engineering knowledge generated during the development of KartSimDT.
+Status: Living Document
 
-Unlike the technical documentation, this document captures ideas, hypotheses, experiments, observations and engineering decisions before they become part of the official project specification.
+---
+
+# Purpose
+
+The Research Notebook records the engineering knowledge, scientific
+investigations and future concepts developed during the evolution of
+KartSimDT.
+
+Unlike technical documentation, this notebook captures ideas,
+hypotheses, experiments and architectural concepts before they become
+part of the platform.
+
+It serves as the long-term engineering memory of the project.
 
 ---
 
 # Research Objectives
 
-The long-term objectives of this notebook are:
+The objectives of this notebook are:
 
-* Document engineering investigations
-* Record experimental results
-* Preserve design rationale
-* Compare algorithms
-* Validate Digital Twin accuracy
-* Support reproducible research
+- Document engineering investigations
+- Preserve design rationale
+- Record experimental results
+- Validate engineering assumptions
+- Compare alternative approaches
+- Support reproducible research
+- Capture future platform concepts
 
 ---
 
 # Research Methodology
 
-Every research topic should follow the same structure:
+Every investigation should follow the same engineering process.
 
 1. Problem
-2. Hypothesis
-3. Method
-4. Results
-5. Conclusions
-6. Future Work
+2. Background
+3. Hypothesis
+4. Method
+5. Results
+6. Conclusions
+7. Future Work
+
+---
+
+# Research Foundation
+
+KartSimDT research follows several fundamental principles.
+
+- Reality before simulation.
+- Validation before implementation.
+- Digital Twins originate from measured data.
+- Every engineering process should be repeatable.
+- Understanding is more valuable than visualization.
+- Learning is the ultimate objective.
 
 ---
 
 # Research Entry 001
 
-## Project Vision
+## Platform Vision
 
 ### Objective
 
-Develop an engineering-grade Digital Twin platform capable of reconstructing kart racing circuits from real-world measurements.
+Develop an engineering platform capable of transforming real-world
+motorsport data into validated Digital Twins.
 
 ### Initial Assumptions
 
-* Real telemetry should always be preferred over synthetic datasets.
-* Every engineering model must be reproducible.
-* Validation is mandatory.
-* The platform should remain modular.
+- Real telemetry is preferred over synthetic datasets.
+- Platform architecture must remain modular.
+- Domain objects isolate external formats.
+- Validation is mandatory.
 
 ### Status
 
@@ -61,25 +89,22 @@ Develop an engineering-grade Digital Twin platform capable of reconstructing kar
 
 ### Objective
 
-Define the primary datasets used during development.
-
-### Decision
-
-KartSimDT will use real reference tracks instead of artificial test datasets.
+Establish engineering reference datasets.
 
 ### Current Reference Tracks
 
-* Aukštadvaris
-* Rotena
-* Anykščiai
+- Aukštadvaris
+- Rotena
+- Anykščiai
 
-Each reference dataset may contain:
+Reference datasets may contain:
 
-* AIM telemetry
-* Google Earth KML
-* Orthophoto imagery
-* Elevation data
-* Metadata
+- AIM telemetry
+- Track Survey
+- KML
+- Orthophotos
+- Elevation
+- Metadata
 
 ### Status
 
@@ -89,28 +114,24 @@ Each reference dataset may contain:
 
 # Research Entry 003
 
-## First Engineering Milestone
+## First Digital Twin
 
 ### Objective
 
-Develop the first fully functional Digital Twin.
+Create the first validated Digital Twin of a real kart circuit.
 
 ### Selected Track
 
-Aukštadvaris Kart Track
+Aukštadvaris
 
-### Required Components
+### Components
 
-* AIM Parser
-* Fastest Lap Extraction
-* KML Import
-* Track Geometry
-* Digital Twin
-* Validation
-
-### Success Criteria
-
-The generated Digital Twin reproduces the real track geometry using measured data.
+- AIM Import
+- TelemetrySession
+- TrackSurveySession
+- Track Geometry
+- Replay
+- Validation
 
 ### Status
 
@@ -118,23 +139,167 @@ The generated Digital Twin reproduces the real track geometry using measured dat
 
 ---
 
-# Future Research Topics
+# Research Entry 004
 
-The following investigations are planned:
+## Ghost Kart
 
-* Telemetry filtering
-* Track centreline reconstruction
-* Elevation interpolation
-* Racing line optimisation
-* Vehicle dynamics
-* Tyre modelling
-* Mass distribution
-* Centre of Gravity estimation
-* Physics validation
-* AI-assisted optimisation
+### Objective
+
+Create a virtual driver reconstructed from measured telemetry.
+
+Applications:
+
+- Racing line comparison
+- Corner analysis
+- Replay visualization
+- Simulator reference
+- Driver coaching
+
+Status:
+
+💡 Research
+
+---
+
+# Research Entry 005
+
+## SimCoach
+
+### Objective
+
+Transform completed training sessions into interactive learning
+experiences.
+
+Research topics:
+
+- Root cause analysis
+- Driver progress evaluation
+- Corner-by-corner coaching
+- Replay visualization
+- Training recommendations
+
+Core idea:
+
+> Performance is measured. Understanding is learned.
+
+Status:
+
+💡 Research
+
+---
+
+# Research Entry 006
+
+## Coaching Studio
+
+### Objective
+
+Develop a post-session engineering workspace combining telemetry,
+Ghost Kart and Digital Twin visualization.
+
+Potential components:
+
+- Session replay
+- Ghost comparison
+- Corner coaching
+- Performance timeline
+- Interactive visualization
+
+Status:
+
+💡 Research
+
+---
+
+# Research Entry 007
+
+## Drone Observer
+
+### Objective
+
+Investigate aerial data acquisition for outdoor circuits.
+
+Potential applications:
+
+- Racing line validation
+- Multi-driver tracking
+- Overtaking analysis
+- Arbitration support
+- Track reconstruction
+
+Status:
+
+💡 Research
+
+---
+
+# Long-Term Research Areas
+
+Future investigations may include:
+
+- Track centreline reconstruction
+- Elevation modelling
+- Indoor localization
+- Outdoor localization
+- Sensor synchronization
+- Computer vision
+- Drone photogrammetry
+- LiDAR
+- Vehicle dynamics
+- Tyre modelling
+- AI-assisted coaching
+- Race intelligence
+- Automatic Digital Twin generation
+
+---
+
+# Engineering Philosophy
+
+Research ideas are intentionally separated from implementation.
+
+Only validated engineering concepts become part of the KartSimDT
+platform.
+
+Ideas evolve into prototypes.
+
+Prototypes evolve into validated platform modules.
+
+---
+
+# Research Evolution
+
+```
+Observation
+
+↓
+
+Idea
+
+↓
+
+Hypothesis
+
+↓
+
+Experiment
+
+↓
+
+Validation
+
+↓
+
+Prototype
+
+↓
+
+Platform Module
+```
 
 ---
 
 # Notes
 
-This notebook is expected to evolve together with the project and serves as the primary record of engineering knowledge generated during the development of KartSimDT.
+This notebook is expected to evolve throughout the lifetime of
+KartSimDT and serves as the permanent record of engineering knowledge
+generated during the project.

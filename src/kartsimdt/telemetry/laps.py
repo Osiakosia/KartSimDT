@@ -86,3 +86,17 @@ class LapCollection:
         if self.is_empty():
             return None
         return self.laps[-1]
+
+    def by_number(
+        self,
+        number: int,
+    ) -> Lap | None:
+        """
+        Return lap by lap number.
+        """
+
+        for lap in self.laps:
+            if lap.number == number:
+                return lap
+
+        return None

@@ -13,7 +13,11 @@ from pathlib import Path
 
 import pandas as pd
 
-from .constants import SUPPORTED_DELIMITERS, SUPPORTED_ENCODINGS
+from .constants import (
+    MULTI_VALUE_METADATA,
+    SUPPORTED_DELIMITERS,
+    SUPPORTED_ENCODINGS,
+)
 from .exceptions import InvalidAimFileError
 from .raw import AimRawData
 
@@ -71,6 +75,29 @@ class AimCsvReader:
 
         return delimiter
 
+    def _is_blank_row(
+        self,
+        row: list[str],
+    ) -> bool:
+        """
+        Return True if a CSV row contains no data.
+        """
+
+        return all(not cell.strip() for cell in row)
+
+    def _trim_trailing_empty_fields(
+        self,
+        values: list[str],
+    ) -> list[str]:
+        """
+        Remove trailing empty CSV fields.
+        """
+
+        while values and not values[-1].strip():
+            values.pop()
+
+        return values
+
     def _read_metadata_block(
         self,
         file_path: Path,
@@ -96,14 +123,19 @@ class AimCsvReader:
 
             for row in reader:
 
-                if not row:
+                if self._is_blank_row(row):
                     break
 
                 if len(row) < 2:
                     continue
-
                 key = row[0].strip()
-                value = row[1].strip()
+
+                values = [cell.strip() for cell in row[1:] if cell.strip()]
+
+                if key in MULTI_VALUE_METADATA:
+                    value = ";".join(values)
+                else:
+                    value = values[0] if values else ""
 
                 metadata[key] = value
 
@@ -132,11 +164,13 @@ class AimCsvReader:
             for row in reader:
 
                 if not metadata_finished:
-                    if not row:
+                    if self._is_blank_row(row):
                         metadata_finished = True
                     continue
 
-                return [name.strip() for name in row]
+                names = [name.strip() for name in row]
+
+                return self._trim_trailing_empty_fields(names)
 
         return []
 
@@ -167,7 +201,7 @@ class AimCsvReader:
             for row in reader:
 
                 if not metadata_finished:
-                    if not row:
+                    if self._is_blank_row(row):
                         metadata_finished = True
                     continue
 
@@ -177,7 +211,9 @@ class AimCsvReader:
                     continue
 
                 # This is the channel units row.
-                return [unit.strip() for unit in row]
+                units = [unit.strip() for unit in row]
+
+                return self._trim_trailing_empty_fields(units)
 
         return []
 
@@ -232,7 +268,7 @@ class AimCsvReader:
 
             for line_number, row in enumerate(reader):
 
-                if not row:
+                if self._is_blank_row(row):
                     blank_lines += 1
 
                     if blank_lines == 2:
@@ -280,6 +316,8 @@ class AimCsvReader:
             encoding,
             delimiter,
         )
+
+        samples = samples.iloc[:, : len(channel_names)]
 
         samples.columns = channel_names
 
