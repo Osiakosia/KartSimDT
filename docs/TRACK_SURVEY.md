@@ -777,13 +777,73 @@ Tasks:
 
 ## Sprint 4.2 — Curve Generation
 
-Tasks:
+### Goal
 
-- [ ] Create curve model
-- [ ] Convert GPS coordinates
-- [ ] Generate curve geometry
+Generate Blender-compatible curve geometry from the
+`TrackSurveySession`.
+
+The generated curve shall be independent from Blender API and represent
+the first engineering geometry of the surveyed track.
+
+---
+
+## Architecture
+
+```text
+TrackSurveySession
+        │
+        ▼
+Coordinate Transform
+        │
+        ▼
+BlenderCurve
+        │
+        ▼
+Curve Geometry
+```
+
+---
+
+## Tasks
+
+## Tasks
+
+- [+] Create local reference frame
+- [ ] Implement local coordinate transformation
+- [ ] Convert GPS points to local coordinates
+- [ ] Generate Blender curve geometry
 - [ ] Validate point order
+- [ ] Validate generated geometry
 - [ ] Unit tests
+
+---
+
+## Deliverables
+
+- Local reference frame
+- Local coordinate system
+- Blender-compatible curve geometry
+- Engineering validation
+- Unit test coverage
+---
+
+## Engineering Tools
+
+- [ ] Create `inspect_coordinate_transform.py`
+- [ ] Create `inspect_curve_geometry.py`
+- [ ] Create `report_curve_geometry.py`
+- [ ] Create `acceptance_curve_generation.py`
+
+---
+
+## Acceptance Criteria
+
+- TrackSurveySession successfully transforms into BlenderCurve
+- Curve geometry is generated
+- Point order is preserved
+- Local coordinates are valid
+- Unit tests pass
+- Engineering inspection passes
 
 ---
 
@@ -848,13 +908,22 @@ Tasks:
 
 | Sprint | Description | Status |
 |---------|-------------|:------:|
-| 4.1 | Visualization Foundation | ⚪ |
-| 4.2 | Curve Generation | ⚪ |
-| 4.3 | Road Mesh | ⚪ |
-| 4.4 | Terrain | ⚪ |
-| 4.5 | Blender Export | ⚪ |
-| 4.6 | Engineering Tools | ⚪ |
-| 4.7 | End-to-End Integration | ⚪ |
+| 4.1 | Visualization Foundation |   🟢   |
+| 4.2 | Curve Generation |   ⚪    |
+| 4.3 | Road Mesh |   ⚪    |
+| 4.4 | Terrain |   ⚪    |
+| 4.5 | Blender Export |   ⚪    |
+| 4.6 | Engineering Tools |   ⚪    |
+| 4.7 | End-to-End Integration |   ⚪    |
 
 ---
 
+ADR Candidate
+
+Should LocalReferenceFrame belong to:
+
+A) visualization.geometry
+
+or
+
+B) survey.track_survey

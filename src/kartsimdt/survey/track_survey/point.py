@@ -2,6 +2,7 @@
 point.py
 
 Track Survey point domain model.
+Represents one surveyed WGS84 point.
 """
 
 from __future__ import annotations
