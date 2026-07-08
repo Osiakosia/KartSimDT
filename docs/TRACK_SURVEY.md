@@ -596,3 +596,265 @@ Track Survey Foundation v1.0 completed.
 The Track Survey subsystem provides the engineering foundation for reconstructing real kart racing circuits.
 
 Its responsibility is to transform field measurements into the common `TrackSurveySession` domain model while remaining independent from later geometry reconstruction, replay and Digital Twin modules.
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+# Visualization Layer
+
+## Goal
+
+Transform the Track Survey domain model into engineering-grade visual
+representations.
+
+The first visualization backend is **Blender**.
+
+Future visualization targets include:
+
+- Blender
+- Unreal Engine
+- Assetto Corsa
+- Other simulation platforms
+
+---
+
+## Architecture
+
+```text
+TrackSurveySession
+        │
+        ▼
+Visualization Layer
+        │
+        ├── Coordinate Transform
+        ├── Curve Generation
+        ├── Mesh Generation
+        ├── Terrain Generation
+        └── Scene Export
+```
+
+---
+
+## Input
+
+```text
+TrackSurveySession
+```
+
+Contains:
+
+- Survey metadata
+- Track centerline
+- GPS coordinates
+
+---
+
+## Output
+
+Visualization scene.
+
+Example:
+
+```text
+Blender Scene
+
+├── Curve
+├── Road Mesh
+├── Terrain
+├── Materials
+└── Scene Objects
+```
+
+---
+
+## Responsibilities
+
+The Visualization layer is responsible for:
+
+- coordinate transformation
+- local coordinate system
+- curve generation
+- road mesh generation
+- terrain generation
+- scene export
+
+The Visualization layer does **not**:
+
+- read KML files
+- validate survey data
+- map survey objects
+- reconstruct telemetry
+
+Those responsibilities belong to the Track Survey module.
+
+---
+
+## Package Structure
+
+```text
+kartsimdt/
+
+    visualization/
+
+        blender/
+
+            __init__.py
+
+            constants.py
+            exceptions.py
+
+            coordinate_transform.py
+
+            curve.py
+            mesh.py
+            terrain.py
+
+            exporter.py
+```
+
+---
+
+## Pipeline
+
+```text
+Google Earth KML
+        │
+        ▼
+TrackSurveyParser
+        │
+        ▼
+TrackSurveySession
+        │
+        ▼
+Visualization
+        │
+        ▼
+Blender Scene
+```
+
+---
+
+## Future Extensions
+
+The Visualization layer is designed to support multiple export targets.
+
+```text
+Visualization
+        │
+        ├── Blender
+        ├── Unreal Engine
+        ├── Assetto Corsa
+        └── Other Platforms
+```
+
+The domain model remains independent from the visualization backend.
+
+---
+
+## Development Roadmap
+
+| Sprint | Description |
+|---------|-------------|
+| 4.1 | Visualization Foundation |
+| 4.2 | Curve Generation |
+| 4.3 | Road Mesh |
+| 4.4 | Terrain |
+| 4.5 | Blender Export |
+| 4.6 | Engineering Tools |
+| 4.7 | End-to-End Integration |
+
+## Sprint 4.1 — Visualization Foundation
+
+Tasks:
+
+- [+] Create Visualization package
+- [+] Create Blender package
+- [+] Create module structure
+- [ ] Create constants
+- [ ] Create exceptions
+- [ ] Create coordinate transformation utilities
+
+---
+
+## Sprint 4.2 — Curve Generation
+
+Tasks:
+
+- [ ] Create curve model
+- [ ] Convert GPS coordinates
+- [ ] Generate curve geometry
+- [ ] Validate point order
+- [ ] Unit tests
+
+---
+
+## Sprint 4.3 — Road Mesh
+
+Tasks:
+
+- [ ] Create road mesh
+- [ ] Generate vertices
+- [ ] Generate faces
+- [ ] Support configurable track width
+- [ ] Unit tests
+
+---
+
+## Sprint 4.4 — Terrain
+
+Tasks:
+
+- [ ] Create terrain model
+- [ ] Generate terrain plane
+- [ ] Orthophoto support
+- [ ] Elevation preparation
+- [ ] Unit tests
+
+---
+
+## Sprint 4.5 — Blender Export
+
+Tasks:
+
+- [ ] Create Blender exporter
+- [ ] Export curve
+- [ ] Export road mesh
+- [ ] Export terrain
+- [ ] Export Blender scene
+
+---
+
+## Sprint 4.6 — Engineering Tools
+
+Tasks:
+
+- [ ] Create Blender inspector
+- [ ] Create engineering report
+- [ ] Create acceptance report
+- [ ] Validate exported scene
+
+---
+
+## Sprint 4.7 — End-to-End Integration
+
+Tasks:
+
+- [ ] Complete visualization pipeline
+- [ ] Acceptance tests
+- [ ] Platform integration
+
+---
+
+# Progress
+
+| Sprint | Description | Status |
+|---------|-------------|:------:|
+| 4.1 | Visualization Foundation | ⚪ |
+| 4.2 | Curve Generation | ⚪ |
+| 4.3 | Road Mesh | ⚪ |
+| 4.4 | Terrain | ⚪ |
+| 4.5 | Blender Export | ⚪ |
+| 4.6 | Engineering Tools | ⚪ |
+| 4.7 | End-to-End Integration | ⚪ |
+
+---
+
