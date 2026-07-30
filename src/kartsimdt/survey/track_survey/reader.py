@@ -15,7 +15,7 @@ from .exceptions import InvalidTrackSurveyError
 from .raw import TrackSurveyRawData
 
 
-class KmlReader:
+class TrackSurveyKmlReader:
     """
     Reads Google Earth KML survey files.
     """

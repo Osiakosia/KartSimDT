@@ -191,7 +191,237 @@ src/
     ├── adapters/
     └── utils/
 ```
+# Geometry Philosophy
 
+> **Single Source of Geometric Truth**
+
+---
+
+## Purpose
+
+KartSimDT is built around a single engineering principle:
+
+> **TrackSurveySession is the single source of geometric truth within the platform.**
+
+Every engineering subsystem shall consume the TrackSurvey domain model rather than raw external data.
+
+This separation keeps the platform independent from file formats, visualization tools and simulation backends.
+
+---
+
+# Engineering Principle
+
+External engineering data are considered **transport formats**, not platform objects.
+
+Examples include:
+
+- Google Earth KML
+- GPX
+- CSV
+- Orthophotos
+- Blender scenes
+- JSON exchange files
+
+These files are only used to construct the TrackSurvey domain model.
+
+Once imported, every subsequent platform module operates exclusively on TrackSurvey.
+
+---
+
+# Geometry Flow
+
+```text
+External Engineering Data
+
+    Google Earth
+    GPX
+    RTK GPS
+    Drone
+    LiDAR
+    Orthophotos
+
+            │
+            ▼
+
+          Readers
+
+            │
+            ▼
+
+     TrackSurveySession
+    (Single Source of Truth)
+
+            │
+            ▼
+
+     Geometry Components
+
+            │
+     ┌──────┼──────────────┐
+     │      │              │
+     ▼      ▼              ▼
+
+Visualization   Exporters   Generators
+```
+
+---
+
+# Readers
+
+Readers import engineering measurements into the platform.
+
+Examples:
+
+- GoogleEarthKmlReader
+- WalkthroughKmlReader
+- GpxReader
+- LidarReader
+
+Every reader produces the same platform object.
+
+```text
+TrackSurveySession
+```
+
+Readers never generate geometry.
+
+Readers never depend on Blender.
+
+Readers never perform visualization.
+
+---
+
+# Geometry Components
+
+Geometry components transform TrackSurvey into reusable engineering geometry.
+
+Examples:
+
+- CenterlineGeometry
+- TrackBoundaryGeometry
+- TerrainGeometry
+- SurfaceGeometry
+
+These objects become the engineering foundation used by every downstream subsystem.
+
+---
+
+# Visualization
+
+Visualization is a consumer of platform geometry.
+
+Visualization systems include:
+
+- Blender
+- Unreal Engine
+- Assetto Corsa
+- Future simulation platforms
+
+Visualization never owns the engineering model.
+
+Its responsibilities are limited to:
+
+- displaying geometry
+- engineering inspection
+- calibration
+- scene export
+
+---
+
+# Blender
+
+Within KartSimDT, Blender is an engineering application.
+
+It is used for:
+
+- visual validation
+- orthophoto alignment
+- engineering calibration
+- scene inspection
+
+Blender never reconstructs TrackSurvey.
+
+Blender only visualizes existing platform geometry.
+
+---
+
+# Calibration
+
+Engineering calibration is performed inside Blender.
+
+The result is exported as calibration parameters.
+
+Example:
+
+```text
+scene_transform.json
+```
+
+Calibration modifies visualization parameters.
+
+It never modifies the original TrackSurveySession.
+
+---
+
+# Generators
+
+Generators consume platform geometry.
+
+Examples:
+
+- Terrain Generator
+- Kerb Generator
+- Track Mesh Generator
+- Racing Line Generator
+- Digital Twin Generator
+
+Generators never read KML or GPX directly.
+
+Their only geometric input is the platform model.
+
+---
+
+# Platform Independence
+
+The geometry core remains completely independent from:
+
+- Blender
+- Assetto Corsa
+- Unity
+- Unreal Engine
+- Export formats
+
+New visualization systems can be connected without changing the TrackSurvey domain model.
+
+Likewise, new Readers can be added without modifying existing generators.
+
+---
+
+# Engineering Rule
+
+The following rule shall guide every future architecture decision.
+
+> **If a new subsystem needs to read KML, GPX, Orthophotos or Blender files directly, the architecture should be reconsidered.**
+
+The correct workflow is:
+
+```text
+External Data
+      │
+      ▼
+Reader
+      │
+      ▼
+TrackSurveySession
+      │
+      ▼
+Platform Geometry
+      │
+      ▼
+Visualization / Export / Generation
+```
+
+TrackSurvey remains the only geometric source of truth throughout the KartSimDT platform.
 ---
 
 # 🔄 Development Workflow

@@ -1,0 +1,23 @@
+{
+    "orthophoto": {
+        "scale": 0.982
+    },
+
+    "track_surveys": {
+        "reference": {
+            "scale": 1.000,
+            "rotation_deg": 0.0,
+            "offset_x": 118.19,
+            "offset_y": -18.49,
+            "offset_z": 0.0
+        },
+
+        "walkthrough": {
+            "scale": 0.998,
+            "rotation_deg": -0.42,
+            "offset_x": 118.42,
+            "offset_y": -18.31,
+            "offset_z": 0.0
+        }
+    }
+}

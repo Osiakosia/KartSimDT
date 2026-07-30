@@ -9,7 +9,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from .mapper import TrackSurveyMapper
-from .reader import KmlReader
+from .reader import TrackSurveyKmlReader
 from .session import TrackSurveySession
 from .validator import TrackSurveyValidator
 
@@ -20,7 +20,7 @@ class TrackSurveyParser:
     """
 
     def __init__(self) -> None:
-        self._reader = KmlReader()
+        self._reader = TrackSurveyKmlReader()
         self._validator = TrackSurveyValidator()
         self._mapper = TrackSurveyMapper()
 

@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 
 from kartsimdt.survey.track_survey.raw import TrackSurveyRawData
-from kartsimdt.survey.track_survey.reader import KmlReader
+from kartsimdt.survey.track_survey.reader import TrackSurveyKmlReader
 
 
 def test_reader_reads_reference_kml() -> None:
@@ -21,7 +21,7 @@ def test_reader_reads_reference_kml() -> None:
         "tests/data/aukstadvaris/survey/centerline.kml",
     )
 
-    reader = KmlReader()
+    reader = TrackSurveyKmlReader()
 
     raw = reader.read(file_path)
 
@@ -37,7 +37,7 @@ def test_reader_reads_first_coordinate() -> None:
     Verify that the first coordinate is read correctly.
     """
 
-    reader = KmlReader()
+    reader = TrackSurveyKmlReader()
 
     raw = reader.read(
         Path("tests/data/aukstadvaris/survey/centerline.kml"),
@@ -55,7 +55,7 @@ def test_reader_reads_last_coordinate() -> None:
     Verify that the last coordinate is read correctly.
     """
 
-    reader = KmlReader()
+    reader = TrackSurveyKmlReader()
 
     raw = reader.read(
         Path("tests/data/aukstadvaris/survey/centerline.kml"),

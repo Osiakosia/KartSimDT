@@ -773,17 +773,19 @@ Tasks:
 - [ ] Create exceptions
 - [ ] Create coordinate transformation utilities
 
----
+------------------------------------------------
+------------------------------------------------
 
-## Sprint 4.2 — Curve Generation
+# Sprint 4.2 — Centerline Geometry & Digital Twin Integration
 
-### Goal
+## Goal
 
-Generate Blender-compatible curve geometry from the
-`TrackSurveySession`.
+Generate the first engineering centerline geometry from the
+`TrackSurveySession` and prepare it for integration into the
+Digital Twin environment.
 
-The generated curve shall be independent from Blender API and represent
-the first engineering geometry of the surveyed track.
+Blender serves as the engineering integration platform for visualization,
+validation and future export to simulation platforms.
 
 ---
 
@@ -793,28 +795,38 @@ the first engineering geometry of the surveyed track.
 TrackSurveySession
         │
         ▼
+Local Reference Frame
+        │
+        ▼
 Coordinate Transform
         │
         ▼
-BlenderCurve
+CenterlineGeometry
         │
         ▼
-Curve Geometry
+Centerline JSON
+        │
+        ▼
+Blender Integration
+        │
+        ▼
+Digital Twin
 ```
 
 ---
 
 ## Tasks
 
-## Tasks
-
-- [+] Create local reference frame
-- [ ] Implement local coordinate transformation
-- [ ] Convert GPS points to local coordinates
-- [ ] Generate Blender curve geometry
-- [ ] Validate point order
-- [ ] Validate generated geometry
-- [ ] Unit tests
+- [x] Create local reference frame
+- [x] Implement local coordinate transformation
+- [x] Convert GPS points to local coordinates
+- [x] Create CenterlineGeometry
+- [x] Create CenterlineGeometryMapper
+- [ ] Export CenterlineGeometry to JSON
+- [ ] Import Centerline JSON into Blender
+- [ ] Validate centerline against orthophoto
+- [x] Validate generated geometry
+- [x] Unit tests
 
 ---
 
@@ -822,30 +834,280 @@ Curve Geometry
 
 - Local reference frame
 - Local coordinate system
-- Blender-compatible curve geometry
+- CenterlineGeometry
+- Centerline JSON
+- Blender import
 - Engineering validation
 - Unit test coverage
+
 ---
 
 ## Engineering Tools
 
-- [ ] Create `inspect_coordinate_transform.py`
-- [ ] Create `inspect_curve_geometry.py`
-- [ ] Create `report_curve_geometry.py`
-- [ ] Create `acceptance_curve_generation.py`
+- [x] inspect_coordinate_transform.py
+- [x] inspect_centerline_geometry.py
+- [x] report_centerline_geometry.py
+- [x] Blender Toolkit infrastructure
+- [ ] export_centerline_json.py
+- [ ] import_centerline.py
+- [ ] import_orthophoto.py
+- [ ] acceptance_curve_generation.py
 
 ---
 
 ## Acceptance Criteria
 
-- TrackSurveySession successfully transforms into BlenderCurve
-- Curve geometry is generated
+- TrackSurveySession successfully transforms into CenterlineGeometry
+- Local coordinate system is valid
 - Point order is preserved
-- Local coordinates are valid
+- CenterlineGeometry is generated
+- Centerline JSON is exported
+- Blender imports centerline successfully
+- Centerline aligns with orthophoto
 - Unit tests pass
 - Engineering inspection passes
 
+-----------------------------------------
+# Sprint 4.2 — Centerline Engineering Pipeline
+
+> **Objective**
+
+Complete the first end-to-end engineering pipeline from Track Survey to Blender calibration.
+
 ---
+
+# Purpose
+
+This sprint establishes the first fully functional engineering workflow of the KartSimDT platform.
+
+The objective is not only to visualize geometry but to validate the complete platform architecture.
+
+```
+Google Earth KML
+        │
+        ▼
+Universal Reader
+        │
+        ▼
+TrackSurveySession
+        │
+        ▼
+Centerline Geometry
+        │
+        ▼
+Centerline JSON
+        │
+        ▼
+Blender Import
+        │
+        ▼
+Engineering Calibration
+        │
+        ▼
+scene_transform.json
+```
+
+---
+
+# Objectives
+
+- create universal centerline pipeline
+- validate TrackSurvey architecture
+- establish Blender as engineering calibration platform
+- export calibration transforms
+- complete first closed engineering workflow
+
+---
+
+## WP1 — Universal Track Survey Reader
+
+### Objective
+
+Establish a universal Track Survey import pipeline capable of converting external survey formats into the TrackSurveySession domain model.
+
+---
+
+### Tasks
+
+- [ ] Refactor KmlReader into the reference implementation
+- [ ] Define Reader interface (common contract)
+- [ ] Prepare GPX Reader implementation
+- [ ] Create reference datasets
+- [ ] Complete unit tests
+- [ ] Validate TrackSurveySession generation
+
+---
+
+### Input
+
+- Google Earth KML
+
+---
+
+### Output
+
+```
+TrackSurveySession
+```
+
+---
+
+### Acceptance Criteria
+
+- [ ] Reader imports KML successfully
+- [ ] TrackSurveyValidator passes
+- [ ] TrackSurveyMapper creates TrackSurveySession
+- [ ] Geometry is identical to the reference dataset
+- [ ] Unit tests pass
+
+---
+
+### Future Readers
+
+- GoogleEarthKmlReader
+- WalkthroughKmlReader
+- GpxReader
+- RTKGpsReader
+- LidarReader
+---
+
+## WP2 — Geometry
+
+Tasks
+
+- [ ] CenterlineGeometryMapper
+- [ ] Coordinate transformation
+- [ ] Local reference frame validation
+
+Deliverable
+
+```
+CenterlineGeometry
+```
+
+---
+
+## WP3 — JSON Export
+
+Tasks
+
+- [ ] CenterlineJsonExporter
+- [ ] JSON validation
+- [ ] Reference datasets
+
+Deliverable
+
+```
+centerline.json
+```
+
+---
+
+## WP4 — Blender Scene Session
+
+Tasks
+
+- [ ] OrthophotoSession adapter
+- [ ] TrackSurveySession adapter
+- [ ] Blender Scene Builder
+- [ ] Scene Debug Tools
+
+Deliverable
+
+.......
+
+BlenderSceneSession
+
+```
+Engineering Scene
+```
+
+---
+
+## WP5 — Engineering Calibration
+
+Tasks
+
+- [ ] Blender Calibration Operator
+- [ ] Export calibration.json
+- [ ] Orthophoto calibration
+- [ ] TrackSurvey calibration
+- [ ] Walkthrough calibration
+
+Deliverable
+
+```
+calibration.json
+```
+
+---
+
+# Acceptance Criteria
+
+The sprint is complete when:
+
+- [ ] Reader imports KML
+- [ ] TrackSurveySession created
+- [ ] CenterlineGeometry generated
+- [ ] JSON exported
+- [ ] Blender imports geometry
+- [ ] Orthophoto imported
+- [ ] Track centerline imported
+- [ ] Walkthrough centerline imported
+- [ ] Blender operator exports calibration
+- [ ] scene_transform.json generated
+
+---
+
+# Engineering Deliverable
+
+The first complete KartSimDT engineering pipeline.
+
+```
+Google Earth KML
+        │
+        ▼
+TrackSurvey Reader
+        │
+        ▼
+TrackSurveySession
+        │
+        ▼
+Centerline Geometry
+        │
+        ▼
+Centerline JSON
+        │
+        ▼
+BlenderSceneSession
+        │
+        ▼
+Engineering Calibration
+        │
+        ▼
+calibration.json
+```
+
+This milestone establishes the engineering calibration workflow that will be reused by Terrain, Kerbs, Track Mesh and future Digital Twin modules.
+
+---
+
+# Status
+
+| Work Package | Status |
+|--------------|:------:|
+| WP1 — Reader | 🟡 |
+| WP2 — Geometry | 🟢 |
+| WP3 — JSON | 🟢 |
+| WP4 — Blender | 🟡 |
+| WP5 — Calibration | ⚪ |
+
+---
+
+# Next Sprint
+
+Sprint 4.3 — Terrain Engineering Pipeline
+-----------------------------------------
 
 ## Sprint 4.3 — Road Mesh
 
@@ -927,3 +1189,117 @@ A) visualization.geometry
 or
 
 B) survey.track_survey
+
+------------------------------------------------
+-----------------------------------------------
+
+# Validation Strategy
+
+KartSimDT validates every engineering component at three independent levels.
+
+---
+
+## Level 1 — Core Validation
+
+Purpose
+
+Validate the engineering platform.
+
+Tools
+
+- pytest
+- mypy
+- ruff
+- black
+
+Typical validation
+
+- Readers
+- Validators
+- Mappers
+- Sessions
+- Geometry
+- Exporters
+
+Question
+
+> Does the engineering platform produce correct data?
+
+---
+
+## Level 2 — Blender Debug Validation
+
+Purpose
+
+Validate Blender integration.
+
+Tools
+
+- Debug runners
+- Console output
+
+Typical validation
+
+- Importers
+- Builders
+- Operators
+
+Question
+
+> Does the Blender code correctly import and build the engineering scene?
+
+---
+
+## Level 3 — Engineering Validation
+
+Purpose
+
+Validate engineering correctness.
+
+Tool
+
+Blender viewport.
+
+Typical validation
+
+- Orthophoto alignment
+- Reference Track Survey
+- Walkthrough Track Survey
+- Calibration
+- Future Terrain
+- Future Kerbs
+- Future Track Mesh
+
+Question
+
+> Does the reconstructed engineering scene match reality?
+
+---
+
+# Validation Flow
+
+```text
+Core Platform
+      │
+      ▼
+pytest / mypy / ruff
+      │
+      ▼
+Blender Debug
+      │
+      ▼
+Engineering Scene
+      │
+      ▼
+Engineering Validation
+```
+
+---
+
+# Engineering Principle
+
+Every new KartSimDT module should pass all three validation levels before being considered complete.
+
+1. Core Validation
+2. Blender Debug Validation
+3. Engineering Validation

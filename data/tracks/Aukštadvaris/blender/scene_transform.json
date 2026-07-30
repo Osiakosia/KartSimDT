@@ -1,0 +1,12 @@
+{
+    "orthophoto": {
+        "scale": 172.674944
+    },
+    "track_centerline": {
+        "scale": 1.000000,
+        "rotation_deg": 0.000000,
+        "offset_x": 118.190000,
+        "offset_y": -18.491000,
+        "offset_z": 0.000000
+    }
+}

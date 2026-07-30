@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 
 from kartsimdt.survey.track_survey.mapper import TrackSurveyMapper
-from kartsimdt.survey.track_survey.reader import KmlReader
+from kartsimdt.survey.track_survey.reader import TrackSurveyKmlReader
 from kartsimdt.survey.track_survey.session import TrackSurveySession
 from kartsimdt.survey.track_survey.validator import TrackSurveyValidator
 
@@ -20,7 +20,7 @@ def survey_session() -> TrackSurveySession:
     Create a TrackSurveySession from the reference KML dataset.
     """
 
-    reader = KmlReader()
+    reader = TrackSurveyKmlReader()
     validator = TrackSurveyValidator()
     mapper = TrackSurveyMapper()
 
