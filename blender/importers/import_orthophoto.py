@@ -27,16 +27,6 @@ def load_orthophoto(
     Load orthophoto image.
     """
 
-    return bpy.data.images.load(
-        str(image_file),
-    )
-
-    print("Orthophoto dimensions:", plane.dimensions)
-    print("Orthophoto location:", plane.location)
-
-    print("Track location:", curve.location)
-    print("Track bounds:", curve.bound_box)
-
 
 def create_orthophoto_plane(
     image: bpy.types.Image,
@@ -248,10 +238,6 @@ def import_orthophoto() -> bpy.types.Object:
         plane,
         orthophoto,
     )
-
-    print(dir(bpy.ops))
-
-    print(dir(bpy.ops.import_image))
 
     print()
     print("Active Object")

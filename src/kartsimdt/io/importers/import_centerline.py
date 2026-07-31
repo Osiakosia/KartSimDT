@@ -6,9 +6,9 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any, cast
 
-
-def load_centerline(path: Path) -> dict:
+def load_centerline(path: Path) -> dict[str, Any]:
     """
     Load Centerline JSON.
     """
@@ -17,7 +17,7 @@ def load_centerline(path: Path) -> dict:
         "r",
         encoding="utf-8",
     ) as file:
-        return json.load(file)
+        return cast(dict[str, Any], json.load(file))
 
 
 def main() -> None:

@@ -23,6 +23,8 @@ from bpy.props import (
     PointerProperty,
 )
 
+from ..services import orthophoto
+
 print("IMPORT calibration.py")
 
 
@@ -36,6 +38,26 @@ def register() -> None:
     )
 
 
+def update_orthophoto_scale(self, context):
+    """Update Orthophoto scale in real time."""
+    orthophoto.apply_scale(self.orthophoto_scale)
+
+
+def update_orthophoto_rotation(self, context):
+    """Update Orthophoto rotation in real time."""
+    orthophoto.apply_rotation(self.orthophoto_rotation)
+
+
+def update_orthophoto_offset_x(self, context):
+    """Update Orthophoto X offset in real time."""
+    orthophoto.apply_offset_x(self.orthophoto_offset_x)
+
+
+def update_orthophoto_offset_y(self, context):
+    """Update Orthophoto Y offset in real time."""
+    orthophoto.apply_offset_y(self.orthophoto_offset_y)
+
+
 class CalibrationProperties(bpy.types.PropertyGroup):
     """
     Interactive calibration properties.
@@ -47,6 +69,7 @@ class CalibrationProperties(bpy.types.PropertyGroup):
         default=1.0,
         min=0.0001,
         precision=6,
+        update=update_orthophoto_scale,
     )
 
     orthophoto_rotation: FloatProperty(
@@ -54,6 +77,7 @@ class CalibrationProperties(bpy.types.PropertyGroup):
         description="Orthophoto rotation (degrees)",
         default=0.0,
         subtype="ANGLE",
+        update=update_orthophoto_rotation,
     )
 
     orthophoto_offset_x: FloatProperty(
@@ -61,6 +85,7 @@ class CalibrationProperties(bpy.types.PropertyGroup):
         description="Orthophoto X offset",
         default=0.0,
         precision=3,
+        update=update_orthophoto_offset_x,
     )
 
     orthophoto_offset_y: FloatProperty(
@@ -68,6 +93,7 @@ class CalibrationProperties(bpy.types.PropertyGroup):
         description="Orthophoto Y offset",
         default=0.0,
         precision=3,
+        update=update_orthophoto_offset_y,
     )
 
     live_update: BoolProperty(

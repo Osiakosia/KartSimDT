@@ -6,6 +6,8 @@ from __future__ import annotations
 
 import bpy
 
+from .calibration import draw_calibration
+
 
 class KartSimDTPanel(bpy.types.Panel):
     bl_label = "KartSimDT"
@@ -27,12 +29,7 @@ class KartSimDTPanel(bpy.types.Panel):
 
         layout.separator()
 
-        layout.label(text="Calibration")
-
-        layout.operator(
-            "kartsimdt.export_calibration",
-            icon="EXPORT",
-        )
+        draw_calibration(layout, context)
 
 
 def register() -> None:

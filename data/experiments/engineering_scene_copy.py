@@ -47,6 +47,7 @@ def build_engineering_scene() -> None:
 
     print(">>> Import track survey")
     track = import_track_survey()
+    print(track.name)
 
     print(">>> Track survey imported")
 

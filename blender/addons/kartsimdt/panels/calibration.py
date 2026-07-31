@@ -26,6 +26,10 @@ def draw_calibration(
     """
     Draw the Calibration section.
     """
+    print("DRAW CALIBRATION")
+
+    props = context.scene.kartsimdt_calibration
+    print(props)
 
     props = context.scene.kartsimdt_calibration
 
@@ -51,6 +55,7 @@ def draw_calibration(
     # Calibration Properties
     #
 
+    print("Drawing properties...")
     col.prop(props, "orthophoto_scale")
     col.prop(props, "orthophoto_rotation")
     col.prop(props, "orthophoto_offset_x")

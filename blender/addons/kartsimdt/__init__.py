@@ -14,4 +14,3 @@ bl_info = {
     "description": "KartSimDT Engineering Tools",
     "category": "3D View",
 }
-
