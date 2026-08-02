@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 from typing import Any, cast
 
+
 def load_centerline(path: Path) -> dict[str, Any]:
     """
     Load Centerline JSON.

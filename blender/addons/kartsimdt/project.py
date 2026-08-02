@@ -6,6 +6,38 @@ from pathlib import Path
 import bpy
 
 
+def get_project_root() -> Path:
+    """
+    Return configured project root.
+    """
+
+    print("__package__ =", __package__)
+    print("addons =", list(bpy.context.preferences.addons.keys()))
+
+    addon = bpy.context.preferences.addons.get(__package__)
+
+    print("addon =", addon)
+
+    if addon is None:
+        raise RuntimeError(f"Addon '{__package__}' not found.")
+
+    print("preferences =", addon.preferences)
+
+    if addon.preferences is None:
+        raise RuntimeError("Addon preferences are None.")
+
+    prefs = addon.preferences
+
+    print("project_root =", prefs.project_root)
+
+    project_root = Path(prefs.project_root)
+
+    if not project_root.exists():
+        raise RuntimeError(f"Project Root does not exist:\n{project_root}")
+
+    return project_root
+
+
 def setup_project_path() -> Path:
     """
     Add KartSimDT project root to sys.path.

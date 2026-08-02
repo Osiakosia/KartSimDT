@@ -1,6 +1,20 @@
 {
     "orthophoto": {
-        "scale": 0.982
+        "source_image": "Aukstadvaris_200m_x_y_kalibracija.png",
+
+        "metres_per_pixel_x": 0.06461674,
+        "metres_per_pixel_y": 0.06448964,
+
+        "calibration": {
+            "x": {
+                "real_distance_m": 200.32,
+                "image_distance_px": 3100.125589
+            },
+            "y": {
+                "real_distance_m": 200.04,
+                "image_distance_px": 3101.893755
+            }
+        }
     },
 
     "track_surveys": {

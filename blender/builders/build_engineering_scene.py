@@ -22,7 +22,7 @@ from blender.cleanup import cleanup_scene
 from blender.importers.import_orthophoto import import_orthophoto
 from blender.importers.import_track_survey import (
     import_track_survey,
-)  # ruff: noqa: E402
+)
 from blender.viewport import reset_viewport
 
 

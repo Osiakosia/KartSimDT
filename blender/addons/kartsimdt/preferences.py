@@ -27,3 +27,11 @@ class KartSimDTPreferences(
             self,
             "project_root",
         )
+
+
+def register() -> None:
+    bpy.utils.register_class(KartSimDTPreferences)
+
+
+def unregister() -> None:
+    bpy.utils.unregister_class(KartSimDTPreferences)
