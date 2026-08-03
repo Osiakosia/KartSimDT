@@ -18,3 +18,4 @@ class GpsElevationSample:
     latitude: float
     longitude: float
     elevation: float
+    session_index: int

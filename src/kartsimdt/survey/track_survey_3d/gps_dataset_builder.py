@@ -33,10 +33,13 @@ class GpsDatasetBuilder:
 
         dataset = GpsElevationDataset()
 
-        for session in telemetry_sessions:
+        for session_index, session in enumerate(
+            telemetry_sessions,
+        ):
             self._append_session(
                 dataset,
                 session,
+                session_index,
             )
 
         return dataset
@@ -45,6 +48,7 @@ class GpsDatasetBuilder:
         self,
         dataset: GpsElevationDataset,
         session: TelemetrySession,
+        session_index: int,
     ) -> None:
         """
         Append one telemetry session to the dataset.
@@ -67,5 +71,6 @@ class GpsDatasetBuilder:
                     latitude=lat,
                     longitude=lon,
                     elevation=elev,
+                    session_index=session_index,
                 )
             )

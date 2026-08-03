@@ -57,10 +57,12 @@ def test_build_single_session() -> None:
     assert dataset.samples[0].latitude == 54.000
     assert dataset.samples[0].longitude == 24.000
     assert dataset.samples[0].elevation == 176.0
+    assert dataset.samples[0].session_index == 0
 
     assert dataset.samples[2].latitude == 54.200
     assert dataset.samples[2].longitude == 24.200
     assert dataset.samples[2].elevation == 178.0
+    assert dataset.samples[2].session_index == 0
 
 
 def test_build_multiple_sessions() -> None:
@@ -74,6 +76,11 @@ def test_build_multiple_sessions() -> None:
     )
 
     assert dataset.count() == 6
+    assert dataset.samples[0].session_index == 0
+    assert dataset.samples[2].session_index == 0
+
+    assert dataset.samples[3].session_index == 1
+    assert dataset.samples[5].session_index == 1
 
 
 def test_preserves_sample_order() -> None:
