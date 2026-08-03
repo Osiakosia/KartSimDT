@@ -105,13 +105,43 @@ class SpatialMatcher:
         gps_sample: GpsElevationSample,
     ) -> float:
         """
-        Calculate the distance between two WGS84 points.
+        Calculate the geodesic distance between two WGS84 points
+        using the Haversine formula.
 
-        Temporary implementation.
-        Will be replaced by the Haversine formula.
+        Returns
+        -------
+        Distance in metres.
         """
 
-        dx = survey_point.longitude - gps_sample.longitude
-        dy = survey_point.latitude - gps_sample.latitude
+        earth_radius = 6_371_000.0
 
-        return math.sqrt(dx * dx + dy * dy)
+        latitude1 = math.radians(
+            survey_point.latitude,
+        )
+        longitude1 = math.radians(
+            survey_point.longitude,
+        )
+
+        latitude2 = math.radians(
+            gps_sample.latitude,
+        )
+        longitude2 = math.radians(
+            gps_sample.longitude,
+        )
+
+        delta_latitude = latitude2 - latitude1
+        delta_longitude = longitude2 - longitude1
+
+        a = (
+            math.sin(delta_latitude / 2.0) ** 2
+            + math.cos(latitude1)
+            * math.cos(latitude2)
+            * math.sin(delta_longitude / 2.0) ** 2
+        )
+
+        c = 2.0 * math.atan2(
+            math.sqrt(a),
+            math.sqrt(1.0 - a),
+        )
+
+        return earth_radius * c
