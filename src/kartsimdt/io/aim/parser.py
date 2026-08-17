@@ -26,23 +26,22 @@ class AimTelemetryParser:
         self._validator = AimValidator()
         self._mapper = AimMapper()
 
-    def parse(self, file_path: Path) -> TelemetrySession:
+    def parse(
+        self,
+        file_path: Path,
+    ) -> TelemetrySession:
         """
-        Parse an AIM telemetry file.
-
-        Parameters
-        ----------
-        file_path : Path
-            Path to the AIM CSV file.
-
-        Returns
-        -------
-        TelemetrySession
-            Parsed telemetry session.
-
-        Raises
-        ------
-        NotImplementedError
-            Parsing is not implemented yet.
+        Parse an AIM telemetry file into a telemetry session.
         """
-        raise NotImplementedError
+
+        raw = self._reader.read(
+            file_path,
+        )
+
+        self._validator.validate(
+            raw,
+        )
+
+        return self._mapper.map(
+            raw,
+        )

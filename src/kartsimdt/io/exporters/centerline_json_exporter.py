@@ -53,7 +53,9 @@ class CenterlineJsonExporter:
         Export geometry to JSON.
         """
 
-        data = self.build_json(geometry)
+        data = self.build_json(
+            geometry,
+        )
 
         output_file.parent.mkdir(
             parents=True,
@@ -75,9 +77,17 @@ class CenterlineJsonExporter:
         print("=" * 60)
         print()
 
-        print(f"Geometry : {geometry.name}")
-        print(f"Points   : {len(geometry.points)}")
-        print(f"Output   : {output_file}")
+        print(
+            f"Geometry : {geometry.name}",
+        )
+
+        print(
+            f"Points   : {len(geometry.points)}",
+        )
+
+        print(
+            f"Output   : {output_file}",
+        )
 
         print()
         print("Status : PASS")

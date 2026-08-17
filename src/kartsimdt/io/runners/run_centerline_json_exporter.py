@@ -4,6 +4,7 @@ Run Centerline JSON exporter.
 
 from __future__ import annotations
 
+import argparse
 from pathlib import Path
 
 from kartsimdt.io.exporters.centerline_json_exporter import (
@@ -13,20 +14,35 @@ from kartsimdt.survey.track_survey.mapper import (
     TrackSurveyMapper,
 )
 from kartsimdt.survey.track_survey.reader import (
-    KmlReader,
+    TrackSurveyKmlReader,
 )
 from kartsimdt.survey.track_survey.validator import (
     TrackSurveyValidator,
 )
+from kartsimdt.track import TrackResolver
 from kartsimdt.visualization.geometry.centerline_mapper import (
     CenterlineGeometryMapper,
 )
 
-ROOT = Path(__file__).resolve().parents[4]
+PROJECT_ROOT = Path(__file__).resolve().parents[4]
 
-DATASET = ROOT / "tests" / "data" / "aukstadvaris" / "survey" / "centerline.kml"
+TRACKS_ROOT = PROJECT_ROOT / "data" / "tracks"
 
-OUTPUT = ROOT / "data" / "exports" / "centerline.json"
+
+def parse_args() -> argparse.Namespace:
+    """Parse command-line arguments."""
+
+    parser = argparse.ArgumentParser(
+        description="Export track centerline to KartSimDT JSON.",
+    )
+
+    parser.add_argument(
+        "--track",
+        required=True,
+        help="Track name from data/tracks.",
+    )
+
+    return parser.parse_args()
 
 
 def main() -> None:
@@ -34,24 +50,43 @@ def main() -> None:
     Run Centerline JSON exporter.
     """
 
-    reader = KmlReader()
+    args = parse_args()
+
+    resolver = TrackResolver(
+        tracks_root=TRACKS_ROOT,
+    )
+
+    track = resolver.resolve(
+        args.track,
+    )
+
+    reader = TrackSurveyKmlReader()
     validator = TrackSurveyValidator()
     survey_mapper = TrackSurveyMapper()
 
-    raw = reader.read(DATASET)
-    validator.validate(raw)
+    raw = reader.read(
+        track.centerline_kml,
+    )
 
-    session = survey_mapper.map(raw)
+    validator.validate(
+        raw,
+    )
+
+    session = survey_mapper.map(
+        raw,
+    )
 
     geometry_mapper = CenterlineGeometryMapper()
 
-    geometry = geometry_mapper.map(session)
+    geometry = geometry_mapper.map(
+        session,
+    )
 
     exporter = CenterlineJsonExporter()
 
     exporter.export(
         geometry=geometry,
-        output_file=OUTPUT,
+        output_file=track.centerline_json,
     )
 
 
