@@ -13,6 +13,11 @@ class KartSimDTPreferences(
         subtype="DIR_PATH",
     )
 
+    track_name: bpy.props.StringProperty(
+        name="Track",
+        default="Aukštadvaris",
+    )
+
     def draw(
         self,
         context,
@@ -26,6 +31,11 @@ class KartSimDTPreferences(
         layout.prop(
             self,
             "project_root",
+        )
+
+        layout.prop(
+            self,
+            "track_name",
         )
 
 

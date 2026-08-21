@@ -40,7 +40,7 @@ def get_project_root() -> Path:
 
 def setup_project_path() -> Path:
     """
-    Add KartSimDT project root to sys.path.
+    Add KartSimDT project root and Core package to Python paths.
     """
 
     prefs = bpy.context.preferences.addons[__package__].preferences
@@ -51,32 +51,72 @@ def setup_project_path() -> Path:
 
     print("project_root =", repr(project_root))
 
-    project_root = Path(prefs.project_root)
-
     if not project_root:
         raise RuntimeError("Project Root is not configured.")
 
     if not project_root.exists():
         raise RuntimeError(f"Project Root does not exist:\n{project_root}")
-    print("blender_dir =", repr(project_root / "blender"))
 
     blender_dir = project_root / "blender"
+
+    print("blender_dir =", repr(blender_dir))
 
     if not blender_dir.exists():
         raise RuntimeError(f"'blender' directory not found:\n{blender_dir}")
 
-    project_root_str = str(project_root)
+    project_src = project_root / "src"
 
-    if project_root_str not in sys.path:
+    if not project_src.exists():
+        raise RuntimeError(f"'src' directory not found:\n{project_src}")
+
+    project_src_str = str(project_src)
+
+    if project_src_str not in sys.path:
         sys.path.insert(
             0,
-            project_root_str,
+            project_src_str,
+        )
+
+    # Blender addon already owns the "kartsimdt" package.
+    # Extend its package path so Core submodules can be found.
+    import kartsimdt
+
+    core_package = project_src / "kartsimdt"
+    core_package_str = str(core_package)
+
+    if core_package_str not in kartsimdt.__path__:
+        kartsimdt.__path__.append(
+            core_package_str,
         )
 
     print("=" * 60)
     print("KartSimDT")
     print(f"Project Root : {project_root}")
     print(f"Blender Dir  : {blender_dir}")
+    print(f"Project Src  : {project_src}")
+    print("Core Package :", core_package)
     print("=" * 60)
 
     return project_root
+
+
+def get_track_context():
+    """
+    Return the currently configured track context.
+    """
+
+    from kartsimdt.track.resolver import TrackResolver
+
+    prefs = bpy.context.preferences.addons[__package__].preferences
+
+    project_root = get_project_root()
+
+    tracks_root = project_root / "data" / "tracks"
+
+    resolver = TrackResolver(
+        tracks_root=tracks_root,
+    )
+
+    return resolver.resolve(
+        prefs.track_name,
+    )

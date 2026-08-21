@@ -1,0 +1,585 @@
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\__init__.py
+====================================================================================================
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\centerline.py
+====================================================================================================
+"""
+centerline.py
+
+Track centerline domain model.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+
+from .point import Point
+
+
+@dataclass(slots=True)
+class Centerline:
+    """
+    Represents the surveyed track centerline.
+    """
+
+    points: list[Point] = field(default_factory=list)
+
+    def count(self) -> int:
+        """q
+
+        Return the number of surveyed points.
+        """
+        return len(self.points)
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\constants.py
+====================================================================================================
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\critical_point.py
+====================================================================================================
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\exceptions.py
+====================================================================================================
+"""
+exceptions.py
+
+Track Survey exceptions.
+"""
+
+from __future__ import annotations
+
+
+class TrackSurveyError(Exception):
+    """
+    Base exception for the Track Survey module.
+    """
+
+
+class InvalidTrackSurveyError(TrackSurveyError):
+    """
+    Raised when a survey file is invalid or cannot be parsed.
+    """
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\gps_point.py
+====================================================================================================
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\mapper.py
+====================================================================================================
+"""
+mapper.py
+
+KartSimDT Track Survey Module
+
+Maps validated survey data into the Track Survey domain model.
+"""
+
+from __future__ import annotations
+
+from .centerline import Centerline
+from .metadata import SurveyMetadata
+from .point import Point
+from .raw import TrackSurveyRawData
+from .session import TrackSurveySession
+
+
+class TrackSurveyMapper:
+    """
+    Maps TrackSurveyRawData into TrackSurveySession.
+    """
+
+    def map(
+        self,
+        raw: TrackSurveyRawData,
+    ) -> TrackSurveySession:
+        """
+        Map validated raw survey data.
+        """
+
+        metadata = self._map_metadata(raw)
+
+        centerline = self._map_centerline(raw)
+
+        return TrackSurveySession(
+            metadata=metadata,
+            centerline=centerline,
+        )
+
+    def _map_metadata(
+        self,
+        raw: TrackSurveyRawData,
+    ) -> SurveyMetadata:
+        """
+        Map survey metadata.
+        """
+
+        return SurveyMetadata(
+            name=raw.metadata.get("name", ""),
+            description=raw.metadata.get("description", ""),
+        )
+
+    def _map_centerline(
+        self,
+        raw: TrackSurveyRawData,
+    ) -> Centerline:
+        """
+        Map survey coordinates into a centerline.
+        """
+
+        points = [
+            Point(
+                longitude=longitude,
+                latitude=latitude,
+                elevation=elevation,
+            )
+            for longitude, latitude, elevation in raw.coordinates
+        ]
+
+        return Centerline(
+            points=points,
+        )
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\metadata.py
+====================================================================================================
+"""
+metadata.py
+
+Track Survey metadata.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+@dataclass(slots=True)
+class SurveyMetadata:
+    """
+    Metadata describing a track survey.
+    """
+
+    name: str
+    description: str = ""
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\notes.py
+====================================================================================================
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\parser.py
+====================================================================================================
+"""
+parser.py
+
+Track Survey parser.
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+from .mapper import TrackSurveyMapper
+from .reader import TrackSurveyKmlReader
+from .session import TrackSurveySession
+from .validator import TrackSurveyValidator
+
+
+class TrackSurveyParser:
+    """
+    Parses a survey dataset into a TrackSurveySession.
+    """
+
+    def __init__(self) -> None:
+        self._reader = TrackSurveyKmlReader()
+        self._validator = TrackSurveyValidator()
+        self._mapper = TrackSurveyMapper()
+
+    def parse(
+        self,
+        path: Path,
+    ) -> TrackSurveySession:
+        """
+        Parse a survey dataset.
+        """
+
+        raw = self._reader.read(path)
+
+        self._validator.validate(raw)
+
+        return self._mapper.map(raw)
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\photo.py
+====================================================================================================
+
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\point.py
+====================================================================================================
+"""
+point.py
+
+Track Survey point domain model.
+Represents one surveyed WGS84 point.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+@dataclass(slots=True)
+class Point:
+    """
+    Represents one surveyed point.
+    """
+
+    longitude: float
+    latitude: float
+    elevation: float | None = None
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\raw.py
+====================================================================================================
+"""
+raw.py
+
+Raw Track Survey data container.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+@dataclass(slots=True)
+class TrackSurveyRawData:
+    """
+    Raw data read from a survey source before validation and mapping.
+    """
+
+    metadata: dict[str, str]
+
+    coordinates: list[
+        tuple[
+            float,  # longitude
+            float,  # latitude
+            float | None,  # elevation
+        ]
+    ]
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\reader.py
+====================================================================================================
+"""
+reader.py
+
+KartSimDT Track Survey Module
+
+Reads Google Earth KML survey files.
+"""
+
+from __future__ import annotations
+
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+from .exceptions import InvalidTrackSurveyError
+from .raw import TrackSurveyRawData
+
+
+class TrackSurveyKmlReader:
+    """
+    Reads Google Earth KML survey files.
+    """
+
+    KML_NAMESPACE = {
+        "kml": "http://www.opengis.net/kml/2.2",
+    }
+
+    def _read_document(
+        self,
+        root: ET.Element,
+    ) -> ET.Element:
+        """
+        Read the KML Document element.
+        """
+
+        document = root.find(
+            "kml:Document",
+            self.KML_NAMESPACE,
+        )
+
+        if document is None:
+            raise InvalidTrackSurveyError("KML Document element is missing.")
+
+        return document
+
+    def _read_metadata(
+        self,
+        document: ET.Element,
+    ) -> dict[str, str]:
+        """
+        Read KML document metadata.
+        """
+
+        metadata: dict[str, str] = {}
+
+        metadata["name"] = document.findtext(
+            "kml:name",
+            default="",
+            namespaces=self.KML_NAMESPACE,
+        )
+
+        metadata["description"] = document.findtext(
+            "kml:description",
+            default="",
+            namespaces=self.KML_NAMESPACE,
+        )
+
+        return metadata
+
+    def _read_coordinates(
+        self,
+        document: ET.Element,
+    ) -> list[tuple[float, float, float | None]]:
+        """
+        Read LineString coordinates.
+        """
+
+        placemark = document.find(
+            "kml:Placemark",
+            self.KML_NAMESPACE,
+        )
+
+        if placemark is None:
+            raise InvalidTrackSurveyError("Placemark element is missing.")
+
+        line = placemark.find(
+            "kml:LineString",
+            self.KML_NAMESPACE,
+        )
+
+        if line is None:
+            raise InvalidTrackSurveyError("LineString element is missing.")
+
+        coordinate_text = line.findtext(
+            "kml:coordinates",
+            default="",
+            namespaces=self.KML_NAMESPACE,
+        )
+
+        coordinates: list[
+            tuple[
+                float,
+                float,
+                float | None,
+            ]
+        ] = []
+
+        for row in coordinate_text.strip().split():
+
+            values = row.split(",")
+
+            longitude = float(values[0])
+            latitude = float(values[1])
+
+            elevation = None
+
+            if len(values) >= 3:
+                value = float(values[2])
+                elevation = value if value != 0.0 else None
+            else:
+                elevation = None
+
+            coordinates.append(
+                (
+                    longitude,
+                    latitude,
+                    elevation,
+                )
+            )
+
+        return coordinates
+
+    def read(
+        self,
+        file_path: Path,
+    ) -> TrackSurveyRawData:
+        """
+        Read a Google Earth KML survey file.
+        """
+
+        try:
+            tree = ET.parse(file_path)
+
+        except ET.ParseError as error:
+            raise InvalidTrackSurveyError(f"Invalid KML file: {file_path}") from error
+
+        root = tree.getroot()
+
+        document = self._read_document(root)
+
+        metadata = self._read_metadata(document)
+
+        coordinates = self._read_coordinates(document)
+
+        return TrackSurveyRawData(
+            metadata=metadata,
+            coordinates=coordinates,
+        )
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\session.py
+====================================================================================================
+"""
+session.py
+
+Track Survey session domain model.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+from .centerline import Centerline
+from .metadata import SurveyMetadata
+
+
+@dataclass(slots=True)
+class TrackSurveySession:
+    """
+    Represents one complete track survey.
+    """
+
+    metadata: SurveyMetadata
+    centerline: Centerline
+
+====================================================================================================
+FILE: C:\Users\37061\PycharmProjects\KartSimDT\src\kartsimdt\survey\track_survey\validator.py
+====================================================================================================
+"""
+validator.py
+
+KartSimDT Track Survey Module
+
+Validation of raw survey data.
+"""
+
+from __future__ import annotations
+
+import math
+
+from .exceptions import InvalidTrackSurveyError
+from .raw import TrackSurveyRawData
+
+
+class TrackSurveyValidator:
+    """
+    Validates TrackSurveyRawData before mapping.
+    """
+
+    def validate(
+        self,
+        raw: TrackSurveyRawData,
+    ) -> None:
+        """
+        Validate raw survey data.
+        """
+
+        self._validate_metadata(raw)
+        self._validate_coordinates(raw)
+
+    def _validate_metadata(
+        self,
+        raw: TrackSurveyRawData,
+    ) -> None:
+        """
+        Validate survey metadata.
+        """
+
+        if not raw.metadata:
+            raise InvalidTrackSurveyError("Survey metadata is empty.")
+
+        if not raw.metadata.get("name"):
+            raise InvalidTrackSurveyError("Survey name is missing.")
+
+    def _validate_coordinates(
+        self,
+        raw: TrackSurveyRawData,
+    ) -> None:
+        """
+        Validate survey coordinates.
+        """
+
+        if not raw.coordinates:
+            raise InvalidTrackSurveyError("Survey coordinates are empty.")
+
+        if len(raw.coordinates) < 2:
+            raise InvalidTrackSurveyError(
+                "Survey must contain at least two coordinates."
+            )
+
+        for index, (longitude, latitude, elevation) in enumerate(
+            raw.coordinates,
+            start=1,
+        ):
+            self._validate_longitude(index, longitude)
+            self._validate_latitude(index, latitude)
+            self._validate_elevation(index, elevation)
+
+    def _validate_longitude(
+        self,
+        index: int,
+        longitude: float,
+    ) -> None:
+        """
+        Validate longitude.
+        """
+
+        if math.isnan(longitude):
+            raise InvalidTrackSurveyError(f"Longitude is NaN at point {index}.")
+
+        if not -180.0 <= longitude <= 180.0:
+            raise InvalidTrackSurveyError(
+                f"Invalid longitude at point {index}: {longitude}"
+            )
+
+    def _validate_latitude(
+        self,
+        index: int,
+        latitude: float,
+    ) -> None:
+        """
+        Validate latitude.
+        """
+
+        if math.isnan(latitude):
+            raise InvalidTrackSurveyError(f"Latitude is NaN at point {index}.")
+
+        if not -90.0 <= latitude <= 90.0:
+            raise InvalidTrackSurveyError(
+                f"Invalid latitude at point {index}: {latitude}"
+            )
+
+    def _validate_elevation(
+        self,
+        index: int,
+        elevation: float | None,
+    ) -> None:
+        """
+        Validate elevation.
+        """
+
+        if elevation is None:
+            return
+
+        if math.isnan(elevation):
+            raise InvalidTrackSurveyError(f"Elevation is NaN at point {index}.")

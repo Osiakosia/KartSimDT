@@ -77,6 +77,20 @@ check_untyped_defs = true
 
 ignore_missing_imports = true
 
+
+[[tool.mypy.overrides]]
+module = [
+    "kartsimdt.visualization.blender.*",
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "kartsimdt.visualization.blender",
+    "kartsimdt.visualization.blender.*",
+]
+ignore_missing_imports = true
+
 # ==========================================================
 # Pytest
 # ==========================================================

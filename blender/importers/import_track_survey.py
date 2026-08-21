@@ -32,7 +32,7 @@ def load_track_survey(
     input_file: Path,
 ) -> dict:
     """
-    Load Track_Survey JSON.
+    Load TrackSurvey JSON.
     """
 
     with input_file.open(
@@ -88,6 +88,11 @@ def apply_track_centerline_transform(
     """
     Apply TrackCenterline transform.
     """
+    print()
+    print("=== TRACK CENTERLINE TRANSFORM DEBUG ===")
+    print(f"transform = {transform}")
+    print(f"offset_z  = {transform.get('offset_z')}")
+    print(f"before location = {tuple(curve.location)}")
 
     curve.scale.x *= transform["scale"]
     curve.scale.y *= transform["scale"]
@@ -103,19 +108,21 @@ def apply_track_centerline_transform(
     if "offset_z" in transform:
         curve.location.z = transform["offset_z"]
 
+    print(f"after location = {tuple(curve.location)}")
+    print("========================================")
+    print()
 
-def import_track_survey() -> bpy.types.Object:
+
+def import_track_survey(
+    track_context,
+) -> bpy.types.Object:
     """
-    Import TrackCenterline JSON.
+    Import TrackSurvey centerline using TrackContext.
     """
 
-    root = Path(__file__).resolve().parents[2]
+    input_file = track_context.centerline_json
 
-    track_folder = root / "data" / "tracks" / "Aukštadvaris"
-
-    input_file = track_folder / "centerline.json"
-
-    transform_file = track_folder / "blender" / "scene_transform.json"
+    transform_file = track_context.blender_dir / "scene_transform.json"
 
     with transform_file.open(
         "r",
@@ -135,6 +142,7 @@ def import_track_survey() -> bpy.types.Object:
         "TrackSurvey",
         points,
     )
+
     curve["source_file"] = data["name"]
 
     bpy.context.scene.collection.objects.link(
@@ -145,6 +153,7 @@ def import_track_survey() -> bpy.types.Object:
         curve,
         transform["track_centerline"],
     )
+    bpy.context.view_layer.update()
 
     print("=" * 60)
     print("KartSimDT Blender Import")
@@ -157,6 +166,12 @@ def import_track_survey() -> bpy.types.Object:
     print(f"Coordinate   : {data['coordinate_system']}")
     print(f"Name         : {data['name']}")
     print(f"Points       : {data['point_count']}")
+
+    print()
+
+    print("Track Context")
+    print(f"Track Name   : {track_context.name}")
+    print(f"Track Root   : {track_context.root}")
 
     print()
 
@@ -173,7 +188,7 @@ def import_track_survey() -> bpy.types.Object:
 
 
 def main() -> None:
-    import_track_survey()
+    raise RuntimeError("import_track_survey.main() requires TrackContext.")
 
 
 if __name__ == "__main__":

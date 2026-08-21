@@ -1,0 +1,23 @@
+road:
+  default_width_m: 8.0
+
+  width_zones:
+    - name: start_finish
+      start_index: 640
+      end_index: 676
+      width_m: 11.0
+
+start_finish:
+  centerline_index: 662
+  straight_start_index: 640
+  straight_end_index: 676
+  straight_length_m: 105.36
+
+kerbs: []
+
+terrain:
+  enabled: true
+
+runoff: []
+
+objects: []
