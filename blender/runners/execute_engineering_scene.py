@@ -33,6 +33,12 @@ print("=" * 60)
 print(f"Project Root : {ROOT}")
 print(f"Blend File   : {bpy.data.filepath}")
 
+# Configure KartSimDT addon for headless execution.
+prefs = bpy.context.preferences.addons["kartsimdt"].preferences
+prefs.project_root = str(ROOT)
+
+print(f"Addon Project Root : {prefs.project_root}")
+
 print_scene_objects(
     "SCENE BEFORE OPERATOR",
 )
@@ -42,8 +48,7 @@ print("Executing:")
 print("  bpy.ops.kartsimdt.build_engineering_scene()")
 
 result = bpy.ops.kartsimdt.build_engineering_scene()
-print()
-print("Saving engineering scene...")
+
 
 bpy.ops.wm.save_as_mainfile(
     filepath=bpy.data.filepath,
